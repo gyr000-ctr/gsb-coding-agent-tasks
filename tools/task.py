@@ -607,9 +607,19 @@ def launch_color(task_id):
 
 
 def codex_cli_config_path():
-    """跑题用的那份 codexcli 配置。"""
-    home = os.environ.get("CODEX_HOME") or os.path.join(os.path.expanduser("~"), ".codex-cli")
-    return os.path.join(home, "config.toml")
+    """跑题用的那份 codexcli 配置。
+
+    Windows 上按隔离脚本（codex-isolate.ps1）的布局，Git Bash 的 HOME 是 ~/.codex-cli，
+    真正的 CODEX_HOME 是它下面的 .codex，所以两个位置都认一下（环境变量优先）。
+    """
+    home = os.environ.get("CODEX_HOME")
+    if home:
+        return os.path.join(home, "config.toml")
+    base = os.path.join(os.path.expanduser("~"), ".codex-cli")
+    nested = os.path.join(base, ".codex", "config.toml")
+    if os.path.exists(nested):
+        return nested
+    return os.path.join(base, "config.toml")
 
 
 def trust_project(path):

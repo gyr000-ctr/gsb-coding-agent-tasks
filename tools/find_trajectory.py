@@ -35,6 +35,8 @@ def codex_roots():
     if extra:
         roots.append(os.path.join(extra, "sessions"))
     roots.extend(sorted(glob.glob(os.path.join(HOME, ".codex*", "sessions"))))
+    # Windows 的隔离布局：~/.codex-cli/.codex/sessions（HOME 的下一级才是 CODEX_HOME）
+    roots.extend(sorted(glob.glob(os.path.join(HOME, ".codex*", ".codex", "sessions"))))
     seen, out = set(), []
     for root in roots:
         key = os.path.normcase(os.path.abspath(root))
