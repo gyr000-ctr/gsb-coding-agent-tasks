@@ -56,3 +56,30 @@ cmd /c "codexcli exec --skip-git-repo-check ""reply with exactly: ok"""
 - 推送需要 GitHub 凭据（本机还没有任何 GitHub 凭据/SSH key），并且要有
   `kundawang/coding-agent-tasks` 的写权限；没有就走自己的仓库。
 - `submit` 依赖 `lark-cli`（本机没装），dry-run 之外的上传要等它到位。
+
+## 日常怎么用
+
+```bat
+:: 在仓库目录里（或点桌面「题库仓库」进去），t 就是 uv run python tools\task.py
+t list                       :: 看所有题目与 A/B 状态
+t new <你的前缀>-001 --workspace <起始环境目录> --prompt-file p.txt ^
+      --title "..." --task-type "0-1 代码生成" --difficulty 困难 ^
+      --lang "JavaScript, Canvas, 原生 ES module（无构建、无依赖）" ^
+      --harness "Codex CLI" --harness-version "0.155.1" --os Windows ^
+      --env-level "无外部依赖"
+t report <题号>               :: 输出要填的字段
+submit <题号> --uid 14X       :: 先 dry-run 预览，确认后加 --write
+```
+
+建完题后，桌面 `GSB题目\<题号>\` 下会有 `A-run.cmd` / `B-run.cmd`，双击就是干净的一轮：
+窗口里**只贴 prompt 原文**，跑完先 `t record <题号> a --side a --session <SessionID>` 再关窗口。
+
+## 几条别踩的线
+
+- **题号用自己的前缀**（名字缩写加序号，例如 `wjt-001`），别用 `lk-` 或 `T`，会和别人撞。
+- 出题前先看 `docs/雷同题黑名单.md`，撞题会被拒收。
+- **GSB 结论和理由必须人自己写**，项目文档禁止用 AI 分析轨迹或代写理由。
+- 带 API Key 的文件（`C:\Users\Administrator\Downloads\vendor-instruction (1)\vendor\codex-cli-setup.sh`、
+  `codexr.cmd`、`.codex-cli\.codex\*`）**不要提交进仓库、不要外发**。
+  需要重配 relay 时，原件在 `C:\Users\Administrator\Downloads\windows适配\windows适配\`
+  （`codex-isolate.ps1` + `使用说明.md`）和 `Downloads\vendor-instruction (1)\vendor\`。
