@@ -789,22 +789,48 @@ def write_launchers(task_id, root, meta):
             f'set "TASK={task_id.upper()}"\r\n'
             f'set "SIDE={side}"\r\n'
             f'set "REPO={REPO}"\r\n'
+            r'set "LOGDIR=%USERPROFILE%\.coding-agent-tasks\logs"' + "\r\n"
+            r'set "LOG=%LOGDIR%\%TASK%-%SIDE%.log"' + "\r\n"
+            r'if not exist "%LOGDIR%" mkdir "%LOGDIR%"' + "\r\n"
+            'echo.>>"%LOG%"\r\n'
+            'echo ===== %DATE% %TIME%  start %TASK%-%SIDE% =====>>"%LOG%"\r\n'
+            "rem Some ways of starting this file bring in TERM=dumb; Codex then stops\r\n"
+            "rem on a 'Continue anyway? [y/N]' prompt instead of starting its TUI.\r\n"
+            'set "TERM=xterm-256color"\r\n'
             "rem always start from a clean initial environment: the previous attempt is\r\n"
             "rem archived under tasks\\<ID>\\runs\\ first, so nothing is ever lost\r\n"
             'echo [launcher] preparing %TASK%-%SIDE% ...\r\n'
             'pushd "%REPO%"\r\n'
-            "uv run python tools\\task.py cycle %TASK% --side %SIDE%\r\n"
+            'uv run python tools\\task.py cycle %TASK% --side %SIDE% >>"%LOG%" 2>&1\r\n'
+            'set "RC=%ERRORLEVEL%"\r\n'
             "popd\r\n"
+            'if not "%RC%"=="0" goto fail\r\n'
+            'where codexcli >>"%LOG%" 2>&1\r\n'
+            "if errorlevel 1 goto fail\r\n"
             "where wt >nul 2>nul\r\n"
             "if errorlevel 1 goto plain\r\n"
             'wt -w 0 nt --title "%LABEL%" --tabColor "%COLOR%" '
             '--suppressApplicationTitle -d "%DIR%" cmd /k codexcli\r\n'
-            "if errorlevel 1 goto plain\r\n"
+            'set "RC=%ERRORLEVEL%"\r\n'
+            'echo wt exit=%RC%>>"%LOG%"\r\n'
+            'if not "%RC%"=="0" goto plain\r\n'
+            'echo handed off to Windows Terminal>>"%LOG%"\r\n'
+            "echo [launcher] opened a new tab in Windows Terminal - look there.\r\n"
+            "timeout /t 3 >nul\r\n"
             "exit /b 0\r\n"
             ":plain\r\n"
-            "title %LABEL%\r\n"
-            'cd /d "%DIR%"\r\n'
-            "codexcli\r\n"
+            'echo starting in a separate window>>"%LOG%"\r\n'
+            'start "%LABEL%" /D "%DIR%" cmd /k codexcli\r\n'
+            "exit /b 0\r\n"
+            ":fail\r\n"
+            "echo.\r\n"
+            "echo [launcher] FAILED before Codex could start. Last log lines:\r\n"
+            "echo ------------------------------------------------------------\r\n"
+            r"""powershell -NoProfile -Command "Get-Content -LiteralPath '%LOG%' -Tail 20" """ + "\r\n"
+            "echo ------------------------------------------------------------\r\n"
+            'echo full log: %LOG%\r\n'
+            "pause\r\n"
+            "exit /b 1\r\n"
         )
         with open(path, "w", encoding="ascii", errors="replace", newline="") as fh:
             fh.write(body)
