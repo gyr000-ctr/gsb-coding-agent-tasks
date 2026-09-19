@@ -31,6 +31,13 @@
    「Continue anyway? [y/N]」不往下走）；每一步写进
    `~\.coding-agent-tasks\logs\<题号>-<A|B>.log`；`wt` 用不了就退回独立窗口；
    任何一步失败都停在窗口里把日志尾部打出来，不再一闪而过。
+5. **修 relay 模型目录**（`C:\Users\Administrator\.codex-cli\repair-model-catalog.py`）：
+   供应商脚本为了把窗口放到 1M，克隆了一个内置 catalog 条目，而那个条目带着桌面客户端的
+   工具模式（`tool_mode = code_mode_only`）、多智能体版本和整套 `functions.xxx` 提示词。
+   CLI 于是按桌面客户端描述工具，模型调 `functions_exec`，CLI 回 `unsupported call`，
+   模型一步都动不了（看起来像一直在等授权）。现在把这些字段去掉、`base_instructions`
+   换成 CLI 自己的提示词，窗口仍旧是 1M。**如果哪天重跑了供应商的 setup 脚本，记得再执行一次
+   这个修复脚本**，否则工具又会被关掉。
 
 ## 跑题环境（已在 `~/.codex-cli/.codex/config.toml` 里配好）
 
