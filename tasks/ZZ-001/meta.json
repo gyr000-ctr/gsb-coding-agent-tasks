@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-001",
+  "title": "manualfind 离线手册全文检索（从 0 实现）",
+  "created_at": "2026-09-19T14:15:42",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, 原生 ES module（无构建、无依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-001/base",
+    "sha": "e5c25450b721d3918e07f15cc320c9ed627ab8af",
+    "permalink": "https://github.com/kundawang/coding-agent-tasks/commit/e5c25450b721d3918e07f15cc320c9ed627ab8af"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-001/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-001/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
