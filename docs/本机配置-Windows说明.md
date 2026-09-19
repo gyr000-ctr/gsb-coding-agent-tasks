@@ -65,8 +65,8 @@ cmd /c "codexcli exec --skip-git-repo-check ""reply with exactly: ok"""
   git config user.email "<你的邮箱>"
   ```
 
-- **远端**：`origin` 指向自己的仓库 `https://github.com/liiing123/coding-agent-tasks`
-  （从 `kundawang/coding-agent-tasks` fork 出来的公开仓库，台账里的快照/轨迹链接都指向它）；
+- **远端**：`origin` 指向自己的公开仓库 `https://github.com/liiing123/gsb-coding-agent-tasks`
+  （独立仓库，不是 fork；台账里的快照/轨迹链接都指向它）；
   原仓库记在 `upstream`，要合并别人的更新用 `git fetch upstream && git merge upstream/main`。
 - **网络**：这台机器直连 `github.com:443` 不通，git 已配置走本地代理
   `http://127.0.0.1:10090`（写在本仓库的 git config 里，不用每次手动设）。
