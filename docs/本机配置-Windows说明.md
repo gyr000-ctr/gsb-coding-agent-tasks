@@ -65,8 +65,11 @@ cmd /c "codexcli exec --skip-git-repo-check ""reply with exactly: ok"""
   git config user.email "<你的邮箱>"
   ```
 
-- 推送需要 GitHub 凭据（本机还没有任何 GitHub 凭据/SSH key），并且要有
-  `kundawang/coding-agent-tasks` 的写权限；没有就走自己的仓库。
+- **远端**：`origin` 指向自己的仓库 `https://github.com/liiing123/coding-agent-tasks`
+  （从 `kundawang/coding-agent-tasks` fork 出来的公开仓库，台账里的快照/轨迹链接都指向它）；
+  原仓库记在 `upstream`，要合并别人的更新用 `git fetch upstream && git merge upstream/main`。
+- **网络**：这台机器直连 `github.com:443` 不通，git 已配置走本地代理
+  `http://127.0.0.1:10090`（写在本仓库的 git config 里，不用每次手动设）。
 - `submit` 依赖 `lark-cli`（本机没装），dry-run 之外的上传要等它到位。
 
 ## 日常怎么用
