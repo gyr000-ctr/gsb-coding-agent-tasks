@@ -11,6 +11,8 @@ import sys
 HOME = os.path.expanduser("~")
 ROOTS = [
     os.path.join(HOME, ".codex-cli", "sessions"),
+    # Windows 隔离布局：Git Bash 的 HOME 是 ~/.codex-cli，CODEX_HOME 是它下面的 .codex
+    os.path.join(HOME, ".codex-cli", ".codex", "sessions"),
     os.path.join(HOME, ".codex", "sessions"),
 ]
 
