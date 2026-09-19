@@ -26,6 +26,11 @@
    信任（免「是否信任此目录」弹窗）才会落进真正生效的那份配置。
 3. **`tools/find_trajectory.py`**：扫描目录里加了 `~/.codex-cli/.codex/sessions`，
    否则按 SessionID 找不到这台机器的轨迹文件。
+4. **A/B 启动器**（`tools/task.py` 里的 `write_launchers`）：Windows Terminal 开新标签之前先把
+   `TERM` 设成 `xterm-256color`（有些启动方式会带进来 `TERM=dumb`，Codex 会停在
+   「Continue anyway? [y/N]」不往下走）；每一步写进
+   `~\.coding-agent-tasks\logs\<题号>-<A|B>.log`；`wt` 用不了就退回独立窗口；
+   任何一步失败都停在窗口里把日志尾部打出来，不再一闪而过。
 
 ## 跑题环境（已在 `~/.codex-cli/.codex/config.toml` 里配好）
 
