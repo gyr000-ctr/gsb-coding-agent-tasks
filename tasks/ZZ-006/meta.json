@@ -19,7 +19,7 @@
     "A": {
       "session_id": "01a0bdda-a77b-7b33-9efe-bb1edabe7cd2",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-006\\trajectories\\A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/PLACEHOLDER_A/tasks/ZZ-006/trajectories/A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/45d389ac5924ce20536f5e16d37ce40e1999a2ce/tasks/ZZ-006/trajectories/A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
       "branch": "zz-006/a",
       "product_snapshot_sha": "f76dbe54cd6f966a0e2745d789c071da5dde03ec",
       "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/f76dbe54cd6f966a0e2745d789c071da5dde03ec",
@@ -28,7 +28,7 @@
     "B": {
       "session_id": "01a0bdda-c301-7352-9e3e-6daad6cc9a75",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-006\\trajectories\\B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/PLACEHOLDER_B/tasks/ZZ-006/trajectories/B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/45d389ac5924ce20536f5e16d37ce40e1999a2ce/tasks/ZZ-006/trajectories/B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
       "branch": "zz-006/b",
       "product_snapshot_sha": "1242771b12b8ac92e7701a7badd5d2dfe85fb8b2",
       "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/1242771b12b8ac92e7701a7badd5d2dfe85fb8b2",
