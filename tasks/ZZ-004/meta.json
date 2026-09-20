@@ -26,12 +26,13 @@
       "trajectory_source": "C:\\Users\\Administrator\\.codex-cli\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T14-45-14-01a0bd8f-d1a1-7f53-a0c5-6086c8248b70.jsonl"
     },
     "B": {
-      "session_id": "",
-      "trajectory_local": "",
+      "session_id": "01a0bd41-e487-7681-bce2-f5705e7ba49b",
+      "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-004\\trajectories\\B-01a0bd41-e487-7681-bce2-f5705e7ba49b.jsonl",
       "trajectory_url": "",
       "branch": "zz-004/b",
-      "product_snapshot_sha": "",
-      "product_snapshot_permalink": ""
+      "product_snapshot_sha": "f21b1d307ca9183e66d87481e2bcc7a5cbb2f009",
+      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/f21b1d307ca9183e66d87481e2bcc7a5cbb2f009",
+      "trajectory_source": "C:\\Users\\Administrator\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T15-13-41-01a0bda9-dcf8-7a63-b46c-e797683e4691.jsonl"
     }
   },
   "notes": ""
