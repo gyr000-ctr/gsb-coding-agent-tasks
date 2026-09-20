@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-010",
+  "title": "flowgate 网关三级限流：滑动窗口、Retry-After 与有界状态（从 0 实现）",
+  "created_at": "2026-09-20T18:09:38",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:http, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-010/base",
+    "sha": "42d0c98f4476dd6727bb8c7830fa0d40121f293e",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/42d0c98f4476dd6727bb8c7830fa0d40121f293e"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-010/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-010/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
