@@ -86,14 +86,19 @@ def by_content(root, session_id, limit=400):
 
 
 def find(session_id):
-    found = []
     search = [(root, "codex") for root in codex_roots()] + [(CLAUDE_ROOT, "claude")]
+    found = []
+    # 先在所有根目录里按文件名找（文件名里的 SessionID 就是这一轮的，最可靠）
     for root, kind in search:
         for path in by_filename(root, session_id):
             found.append({"kind": kind, "path": path, "match": "filename"})
-        if not found:
-            for path in by_content(root, session_id):
-                found.append({"kind": kind, "path": path, "match": "content"})
+    if found:
+        return found
+    # 文件名里都没有，才退回扫内容。注意内容匹配可能命中"别的会话里提到过这个 ID"
+    # 的文件（比如主持人在桌面版里念了一遍 SessionID），所以只能当兜底。
+    for root, kind in search:
+        for path in by_content(root, session_id):
+            found.append({"kind": kind, "path": path, "match": "content"})
     return found
 
 
