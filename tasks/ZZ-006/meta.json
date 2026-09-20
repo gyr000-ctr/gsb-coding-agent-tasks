@@ -19,20 +19,20 @@
     "A": {
       "session_id": "01a0bdda-a77b-7b33-9efe-bb1edabe7cd2",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-006\\trajectories\\A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/bf2f3d94e243d2c709aca3a59d8d25bb1ca987e7/tasks/ZZ-006/trajectories/A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/PLACEHOLDER_A/tasks/ZZ-006/trajectories/A-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl",
       "branch": "zz-006/a",
       "product_snapshot_sha": "f76dbe54cd6f966a0e2745d789c071da5dde03ec",
       "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/f76dbe54cd6f966a0e2745d789c071da5dde03ec",
-      "trajectory_source": "C:\\Users\\Administrator\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T16-21-23-01a0bde7-da33-7360-9952-72469c1ae936.jsonl"
+      "trajectory_source": "C:\\Users\\Administrator\\.codex-cli\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T16-06-58-01a0bdda-a77b-7b33-9efe-bb1edabe7cd2.jsonl"
     },
     "B": {
       "session_id": "01a0bdda-c301-7352-9e3e-6daad6cc9a75",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-006\\trajectories\\B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/1e67a4e5e8a9124db08ccaa71f8a22a93074e6b6/tasks/ZZ-006/trajectories/B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/PLACEHOLDER_B/tasks/ZZ-006/trajectories/B-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl",
       "branch": "zz-006/b",
       "product_snapshot_sha": "1242771b12b8ac92e7701a7badd5d2dfe85fb8b2",
       "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/1242771b12b8ac92e7701a7badd5d2dfe85fb8b2",
-      "trajectory_source": "C:\\Users\\Administrator\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T16-21-23-01a0bde7-da33-7360-9952-72469c1ae936.jsonl"
+      "trajectory_source": "C:\\Users\\Administrator\\.codex-cli\\.codex\\sessions\\2026\\09\\20\\rollout-2026-09-20T16-07-05-01a0bdda-c301-7352-9e3e-6daad6cc9a75.jsonl"
     }
   },
   "notes": ""
