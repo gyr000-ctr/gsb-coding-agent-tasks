@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-007",
+  "title": "eventpush 事件推送网关：有界缓冲、断线补发与优雅关闭（从 0 实现）",
+  "created_at": "2026-09-20T15:29:33",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, SSE, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-007/base",
+    "sha": "3f0aee0d79d77b39be1a08c4ad787a694f272ec1",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/3f0aee0d79d77b39be1a08c4ad787a694f272ec1"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-007/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-007/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
