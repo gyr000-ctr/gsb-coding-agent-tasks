@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-025",
+  "title": "shardring 一致性哈希分片环与迁移计划（从 0 实现）",
+  "created_at": "2026-09-21T16:45:46",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-025/base",
+    "sha": "e4e5261dbf1dc25bf443537e83da7ade2474ce04",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/e4e5261dbf1dc25bf443537e83da7ade2474ce04"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-025/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-025/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
