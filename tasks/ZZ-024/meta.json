@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-024",
+  "title": "policygate 属性化访问决策与缓存失效（从 0 实现）",
+  "created_at": "2026-09-21T16:45:39",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-024/base",
+    "sha": "0cec96ae9b98c04aec3fdecf35dde61f209458a2",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/0cec96ae9b98c04aec3fdecf35dde61f209458a2"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-024/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-024/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
