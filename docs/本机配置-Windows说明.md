@@ -36,8 +36,13 @@
    工具模式（`tool_mode = code_mode_only`）、多智能体版本和整套 `functions.xxx` 提示词。
    CLI 于是按桌面客户端描述工具，模型调 `functions_exec`，CLI 回 `unsupported call`，
    模型一步都动不了（看起来像一直在等授权）。现在把这些字段去掉、`base_instructions`
-   换成 CLI 自己的提示词，窗口仍旧是 1M。**如果哪天重跑了供应商的 setup 脚本，记得再执行一次
-   这个修复脚本**，否则工具又会被关掉。
+  换成 CLI 自己的提示词，窗口仍旧是 1M。**如果哪天重跑了供应商的 setup 脚本，记得再执行一次
+  这个修复脚本**，否则工具又会被关掉。
+6. **`tools/task.py` 的 `codex_cli_config_path()`**：A/B 启动器会先把 `CODEX_HOME` 指到
+   「这一轮自己的运行环境」（`~/.coding-agent-tasks/homes/<题号>-<A|B>/.codex`）再调
+   `t cycle`。那个目录本身就是从模板铺出来的，拿它当模板会自己套自己：这一轮铺不出独立运行
+   环境，直接回落到共享那份 home，两轮 sessions 又混在一个目录里。现在指到 `homes/` 底下的
+   `CODEX_HOME` 一律忽略，回落到本机真正的模板。
 
 ## 跑题环境（已在 `~/.codex-cli/.codex/config.toml` 里配好）
 

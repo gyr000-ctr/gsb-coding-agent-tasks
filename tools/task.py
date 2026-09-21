@@ -713,10 +713,25 @@ def codex_cli_config_path():
 
     Windows 上按隔离脚本（codex-isolate.ps1）的布局，Git Bash 的 HOME 是 ~/.codex-cli，
     真正的 CODEX_HOME 是它下面的 .codex，所以两个位置都认一下（环境变量优先）。
+
+    注意：A/B 启动器会先把 CODEX_HOME 指到「这一轮自己的运行环境」再调 t cycle。
+    那个目录本来就是从模板铺出来的，要是拿它当模板就会自己套自己 —— 结果是这一轮
+    根本铺不出独立运行环境、回落到共享的那份 home，两轮的会话又混在一起。
+    所以指到 homes/ 底下的 CODEX_HOME 一律忽略，回落到本机真正的模板。
     """
+    def is_run_home(path):
+        try:
+            target = os.path.normcase(os.path.abspath(path))
+            root = os.path.normcase(os.path.abspath(RUN_HOMES))
+        except (OSError, ValueError):
+            return False
+        return target == root or target.startswith(root + os.sep)
+
     home = os.environ.get("CODEX_HOME")
-    if home:
-        return os.path.join(home, "config.toml")
+    if home and not is_run_home(home):
+        candidate = os.path.join(home, "config.toml")
+        if os.path.exists(candidate):
+            return candidate
     base = os.path.join(os.path.expanduser("~"), ".codex-cli")
     nested = os.path.join(base, ".codex", "config.toml")
     if os.path.exists(nested):
