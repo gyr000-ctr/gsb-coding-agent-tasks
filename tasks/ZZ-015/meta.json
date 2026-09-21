@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-015",
+  "title": "formweave 服务端 multipart 流式解析：边界半包、有界内存与请求中断（从 0 实现）",
+  "created_at": "2026-09-21T13:18:16",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:http, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-015/base",
+    "sha": "03651e597473c79e7ce1f15374bbc2ccffba4bd9",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/03651e597473c79e7ce1f15374bbc2ccffba4bd9"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-015/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-015/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
