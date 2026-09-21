@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-014",
+  "title": "slotgate 服务端准入闸门：按期限排队、超时收敛与优雅排水（从 0 实现）",
+  "created_at": "2026-09-21T10:26:13",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "Java 21, Gradle, JDK HttpServer, JUnit 5",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "JDK 21 + Gradle 8.14，依赖走 Maven Central",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-014/base",
+    "sha": "285b180cb5a004f45e405f14d5e7c3c8eb74d9b6",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/285b180cb5a004f45e405f14d5e7c3c8eb74d9b6"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-014/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-014/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
