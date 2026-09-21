@@ -54,6 +54,25 @@
    降到只剩 `permissions 363 字 + environment_context 453 字`，技能清单整块消失。
    TUI 自己还会多一段 `collaboration_mode`（约 1.3k 字，删不掉），那是 harness 的固定前导。
    `t record` 现在会顺手把这几个块的类型和字数打出来，多出别的块会当场提醒。
+8. **轨迹里一个字都不注入**（`~/.codex-cli/.codex/config.toml` 顶部，备份
+   `config.toml.bak-before-no-inject-20260921`）：第 7 条关掉的是技能/插件/MCP，harness 还会往
+   每轮里塞权限说明、环境上下文、协作模式、apps 说明。CLI 里这四个块各有开关，写到
+   **文件最顶部**（第一个表头之前）即可：
+
+   ```toml
+   include_permissions_instructions = false
+   include_apps_instructions = false
+   include_collaboration_mode_instructions = false
+   include_environment_context = false
+   ```
+
+   注意别写在文件末尾 —— 那已经落进最后一个 `[projects.'...']` 表里，等于没设（踩过一次：
+   实测注入还是 816 字）。
+   实测（`codex "prompt"` 起在真实终端标签里跑 TUI，再用 `rollout_info` 读原始 rollout）：
+   `harness_parts` 为空、注入 **0 字**，`collaboration_mode` 那段也没有了；exec 路径同样。
+   轨迹里就只剩 prompt、模型的输出和工具调用，外加 `session_meta` / `turn_context` /
+   `world_state` / `event_msg` 这些记录字段（rollout 文件格式本身要有的）。
+   `t record` 会把 `harness_parts` 打出来核对，只要不是空的就当场提醒，先别提交。
 
 ## 三份 CODEX_HOME 的关系（"隔离"到底是哪一层）
 

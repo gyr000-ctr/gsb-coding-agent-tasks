@@ -540,23 +540,19 @@ def check_rollout(evidence, task_id, role):
             problems.append("轨迹里的 prompt 和台账里的 prompt.md 对不上"
                             "（两轮用的不是同一份 prompt）")
 
-    # 轨迹原样上交，harness 自己注入的那几块（权限、环境上下文、协作模式）跟着一起交，
-    # 但除此之外不该再有别的东西 —— 尤其是技能清单和插件说明。多出来就当场提醒。
-    allowed = {"permissions", "environment_context", "collaboration_mode"}
-    extra = {name: size for name, size in (evidence.get("harness_parts") or {}).items()
-             if name not in allowed}
-    if extra:
+    # 轨迹原样上交，所以这一轮到底被 harness 塞了什么，只能跑之前把注入关掉、跑之后核一遍。
+    # 目标是一个字都不注入：rollout 里只有 prompt、模型的输出和工具调用。
+    parts = evidence.get("harness_parts") or {}
+    if parts:
         notes.append(
-            "这条轨迹里除了 permissions / environment_context / collaboration_mode，"
-            "还注入了别的 harness 内容："
-            + "、".join(f"{name} {size} 字" for name, size in sorted(extra.items()))
-            + " —— 确认一下是不是想要的，不对劲就重跑这一轮再记账"
+            "这条轨迹里还有 harness 注入："
+            + "、".join(f"{name} {size} 字" for name, size in sorted(parts.items()))
+            + " —— 跑题配置里的 include_permissions_instructions / include_apps_instructions /"
+            " include_collaboration_mode_instructions / include_environment_context 要都是 false"
+            "（见 docs/本机配置-Windows说明.md 第 8 条），确认之前先别提交这一轮"
         )
     else:
-        notes.append(
-            f"轨迹里的 harness 注入只有 {', '.join(sorted(evidence.get('harness_parts') or {}) or ['无'])}"
-            f"（共 {evidence.get('harness_chars', 0)} 字），没有技能清单/插件说明这类多余内容"
-        )
+        notes.append("轨迹里没有任何 harness 注入：只有 prompt、模型的输出和工具调用")
 
     return problems, notes
 
