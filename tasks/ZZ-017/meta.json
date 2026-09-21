@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-017",
+  "title": "calexpand 重复日程展开与时区/夏令时处理（从 0 实现）",
+  "created_at": "2026-09-21T15:20:46",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, Intl 时区, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-017/base",
+    "sha": "2cea218d423976aec0203488c77749da2354d184",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/2cea218d423976aec0203488c77749da2354d184"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-017/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-017/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
