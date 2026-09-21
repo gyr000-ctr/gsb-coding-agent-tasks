@@ -45,3 +45,6 @@ npm-debug.log*
 
 # 每道题的工作区绝对路径（只在本机记账用，不上传）
 tasks/*/.workspace
+
+# 本机给 agent 看的说明文件：不随题入库（t record / t set 里的 git add -A 会顺手带上）
+AGENTS.md
