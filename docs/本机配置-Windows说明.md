@@ -55,6 +55,34 @@
    TUI 自己还会多一段 `collaboration_mode`（约 1.3k 字，删不掉），那是 harness 的固定前导。
    `t record` 现在会顺手把这几个块的类型和字数打出来，多出别的块会当场提醒。
 
+## 三份 CODEX_HOME 的关系（"隔离"到底是哪一层）
+
+一台机器上其实有三层，互相不共用会话：
+
+| | 桌面客户端 `codex` | 跑题 `codexcli`（共享 home） | 本轮 home（`t cycle` 每轮铺一份） |
+|---|---|---|---|
+| 二进制 | `AppData\Local\OpenAI\Codex\bin\<hash>\codex.exe`（`0.155.0-alpha.9.2`） | `C:\nvm\v20.19.5\node_modules\@openai\codex`（`0.155.1`，提交表要填的就是这个） | 同左，同一份安装 |
+| `CODEX_HOME` | `C:\Users\Administrator\.codex` | `C:\Users\Administrator\.codex-cli\.codex` | `~\.coding-agent-tasks\homes\<题号>-<A\|B>\.codex` |
+| `config.toml` | `09c14a00…`（本机没动过） | `00dc815d…` | 与模板逐字节一致，A / B 也一致 |
+| `auth.json` | 93 字节（桌面自己的登录） | 36 字节 | 从模板铺出，两轮各一份 |
+| `sessions/` | 桌面 App 自己的会话（上百个） | 空 | 跑之前不存在，跑完只有这一轮的 rollout |
+| `history.jsonl` | 无 | 有（以前手工跑留下的 prompt 历史） | **没有** —— 历史 prompt 不会回灌到跑题会话里 |
+| 状态库（state / logs / goals / memories / queue） | 自己一套 | 自己一套 | 每轮自己一套 |
+| `plugins/` | 桌面插件目录 | 本地 cache 目录 | **空目录**（配置里也没有 `[plugins.*]`） |
+| `skills/` | 桌面那份（`~\.codex\skills`） | 指向桌面那份的目录联接 | 指向共享那份的目录联接（只读） |
+
+只读共享的只有三样：`skills` 目录那一条联接链、`relay_base_instructions.txt`、
+`relay_model_catalog.json`。后两样 A / B 读同一份，正是"两轮 harness 完全相同、窗口都是 1M"的保证；
+`skills` 那份因为 5 个内置 skill 和出题 skill 全都 `enabled = false`，一个字都不会进轨迹。
+
+两条推论，跑题时必须守住：
+
+- **窗口要从启动器开**（双击题目目录里的 `A-run.cmd` / `B-run.cmd`，或点桌面标签）。启动器会把
+  `CODEX_HOME` 指到本轮那份再启 codex，隔离才生效。自己在别处开个窗口手敲 `codexcli`，`CODEX_HOME`
+  是共享那份，两轮就会共用 sessions / history。
+- 万一真手敲了，用启动器重开一次就行（`t cycle` 会把工作区恢复成全新、会话目录换成本轮那份）；
+  已经跑出来的会话留在共享 home 里，别拿它记账。
+
 ## 跑题环境（已在 `~/.codex-cli/.codex/config.toml` 里配好）
 
 模型 `auto_model/urm`（super_relay 网关）、上下文窗口 1,000,000、推理 `high`、
