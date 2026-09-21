@@ -207,6 +207,12 @@ world_state、turn_context、token 计数），直接看很难对账，所以 `t
 | `harness_parts` / `harness_chars` | 两轮注入的内容长度指纹，对不上说明环境变了 |
 | `raw_sha256` / `raw_lines` | 交上去那份文件的指纹，事后可复核 |
 
+轨迹里那几块注入内容由 harness 决定，配置层面已经压到最小：与题目无关的技能清单、插件说明、
+MCP 工具说明都关掉了（怎么关的、实测差多少字，见 `docs/本机配置-Windows说明.md` 第 7 条）。
+`t record` 现在会把每个块的类型和字数打出来 —— 正常情况下只有 `permissions`、
+`environment_context`（TUI 里还会多一段 `collaboration_mode`），多出别的块会当场提醒，
+不对劲就重跑这一轮再记账。
+
 `t record` 会在记账前先拦一道：
 
 ```bat

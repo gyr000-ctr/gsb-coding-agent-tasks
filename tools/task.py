@@ -540,6 +540,24 @@ def check_rollout(evidence, task_id, role):
             problems.append("轨迹里的 prompt 和台账里的 prompt.md 对不上"
                             "（两轮用的不是同一份 prompt）")
 
+    # 轨迹原样上交，harness 自己注入的那几块（权限、环境上下文、协作模式）跟着一起交，
+    # 但除此之外不该再有别的东西 —— 尤其是技能清单和插件说明。多出来就当场提醒。
+    allowed = {"permissions", "environment_context", "collaboration_mode"}
+    extra = {name: size for name, size in (evidence.get("harness_parts") or {}).items()
+             if name not in allowed}
+    if extra:
+        notes.append(
+            "这条轨迹里除了 permissions / environment_context / collaboration_mode，"
+            "还注入了别的 harness 内容："
+            + "、".join(f"{name} {size} 字" for name, size in sorted(extra.items()))
+            + " —— 确认一下是不是想要的，不对劲就重跑这一轮再记账"
+        )
+    else:
+        notes.append(
+            f"轨迹里的 harness 注入只有 {', '.join(sorted(evidence.get('harness_parts') or {}) or ['无'])}"
+            f"（共 {evidence.get('harness_chars', 0)} 字），没有技能清单/插件说明这类多余内容"
+        )
+
     return problems, notes
 
 
@@ -776,7 +794,9 @@ HARNESS_FILES = (
     "relay_base_instructions.txt",
     "relay_model_catalog.json",
 )
-HARNESS_LINKS = ("skills", "plugins")
+# 只链接 skills：这一轮要能看见目录联接过去的那份 skill 清单（`[[skills.config]]` 里的路径
+# 就是指过去的），plugins 则相反 —— 见 ensure_side_home 里为什么留空目录。
+HARNESS_LINKS = ("skills",)
 
 
 def template_home():
@@ -829,6 +849,17 @@ def ensure_side_home(task_id, side, workspaces=()):
         source = os.path.join(src, name)
         if os.path.exists(source) and not linker_dir(source, os.path.join(home, name)):
             problems.append(f"没能把 {name} 链接到 {home}")
+
+    # plugins 留一个**空的本地目录**，不要链接到共享那份。链接过去就等于把桌面客户端整套插件
+    # （documents / pdf / spreadsheets / presentations / visualize / browser ...）带进这一轮，
+    # 它们的技能说明会被 harness 列进「可用技能」、跟着写进轨迹 —— 跟跑题本身没关系。
+    plugins_dir = os.path.join(home, "plugins")
+    try:
+        if os.path.exists(plugins_dir) and os.path.realpath(plugins_dir) != os.path.abspath(plugins_dir):
+            os.rmdir(plugins_dir)      # 只摘掉链接，共享那份不动
+    except OSError:
+        pass
+    os.makedirs(plugins_dir, exist_ok=True)
 
     # config 每次都从模板重铺一遍，再补上本题两轮的信任项：
     # A / B 两份内容逐字节一致，这本身就是「同一个 harness 配置」的证据。

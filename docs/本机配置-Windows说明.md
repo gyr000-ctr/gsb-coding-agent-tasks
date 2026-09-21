@@ -43,6 +43,17 @@
    `t cycle`。那个目录本身就是从模板铺出来的，拿它当模板会自己套自己：这一轮铺不出独立运行
    环境，直接回落到共享那份 home，两轮 sessions 又混在一个目录里。现在指到 `homes/` 底下的
    `CODEX_HOME` 一律忽略，回落到本机真正的模板。
+7. **把 harness 自己注入的东西压到最小**（`~/.codex-cli/.codex/config.toml`，备份
+   `config.toml.bak-before-minimal-20260921`）：原来那套插件（`[plugins.*]` +
+   `[marketplaces.*]`）、桌面客户端带进来的 MCP server（`[mcp_servers.node_repl]` /
+   `cua_repl`）和所有 skill 都会被 harness 写进每轮的「可用技能 / 可用工具」清单、跟着进轨迹。
+   现在这些段全删掉，另外给 5 个内置 skill 各加了一条 `[[skills.config]] enabled = false`；
+   `tools/task.py` 的 `ensure_side_home()` 也改成只把 `skills` 链接过去、`plugins` 留一个空目录。
+   实测（同一份配置真跑一轮，再用 `rollout_info` 读原始 rollout）：注入从
+   `skills_instructions 4888 字 + permissions 363 字 + environment_context 453 字`
+   降到只剩 `permissions 363 字 + environment_context 453 字`，技能清单整块消失。
+   TUI 自己还会多一段 `collaboration_mode`（约 1.3k 字，删不掉），那是 harness 的固定前导。
+   `t record` 现在会顺手把这几个块的类型和字数打出来，多出别的块会当场提醒。
 
 ## 跑题环境（已在 `~/.codex-cli/.codex/config.toml` 里配好）
 
