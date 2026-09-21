@@ -1,0 +1,14 @@
+{
+  "name": "shardring",
+  "version": "0.1.0",
+  "private": true,
+  "description": "一致性哈希分片环：虚拟节点、权重与迁移计划",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/lookup.test.js test/move.test.js test/plan.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
