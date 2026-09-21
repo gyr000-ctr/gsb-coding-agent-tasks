@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-016",
+  "title": "chunkrelay 分片续传上传会话引擎（从 0 实现）",
+  "created_at": "2026-09-21T15:20:32",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:crypto, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-016/base",
+    "sha": "8d480a017cdacd1477af30001a63b86f5f5fcb92",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/8d480a017cdacd1477af30001a63b86f5f5fcb92"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-016/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-016/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
