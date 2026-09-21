@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-012",
+  "title": "meterroll 多租户用量计量与周期结算：幂等累加、迟到结转与结算幂等（从 0 实现）",
+  "created_at": "2026-09-21T10:01:11",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "Java 21, Gradle, H2 (JDBC), JUnit 5",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "JDK 21 + Gradle 8.14，依赖走 Maven Central",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-012/base",
+    "sha": "76be605a2967c79af38eda531b9100cc9f837624",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/76be605a2967c79af38eda531b9100cc9f837624"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-012/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-012/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
