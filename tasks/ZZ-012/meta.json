@@ -17,12 +17,13 @@
   },
   "runs": {
     "A": {
-      "session_id": "",
-      "trajectory_local": "",
+      "session_id": "01a0c1c5-1529-7da3-a9c7-653fbf785691",
+      "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-012\\trajectories\\A-01a0c1c5-1529-7da3-a9c7-653fbf785691.jsonl",
       "trajectory_url": "",
       "branch": "zz-012/a",
-      "product_snapshot_sha": "",
-      "product_snapshot_permalink": ""
+      "product_snapshot_sha": "4a1f7b1d6240949dcba0efecbc99e41fe22590da",
+      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/4a1f7b1d6240949dcba0efecbc99e41fe22590da",
+      "trajectory_source": "C:\\Users\\Administrator\\.codex-cli\\.codex\\sessions\\2026\\09\\21\\rollout-2026-09-21T10-21-53-01a0c1c5-1529-7da3-a9c7-653fbf785691.jsonl"
     },
     "B": {
       "session_id": "",
