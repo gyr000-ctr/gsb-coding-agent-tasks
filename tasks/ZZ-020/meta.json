@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-020",
+  "title": "lexindex 倒排索引与 BM25 查询引擎（从 0 实现）",
+  "created_at": "2026-09-21T15:21:17",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-020/base",
+    "sha": "123902644803db690dca02f79f3c66baa503a4f5",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/123902644803db690dca02f79f3c66baa503a4f5"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-020/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-020/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
