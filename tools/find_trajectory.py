@@ -26,10 +26,13 @@ except Exception:
 HOME = os.path.expanduser("~")
 CODEX_ROOT = os.path.join(HOME, ".codex", "sessions")
 CLAUDE_ROOT = os.path.join(HOME, ".claude", "projects")
+# 每轮跑题用的独立 CODEX_HOME（见 tools/task.py 的 ensure_side_home）
+RUN_HOMES_ROOT = os.path.join(HOME, ".coding-agent-tasks", "homes")
 
 
 def codex_roots():
-    """默认 ~/.codex/sessions，外加 $CODEX_HOME/sessions 与家目录下所有 .codex*/sessions。"""
+    """默认 ~/.codex/sessions，外加 $CODEX_HOME/sessions、家目录下所有 .codex*/sessions，
+    以及每轮隔离出来的 ~/.coding-agent-tasks/homes/<题号>-<A|B>/.codex/sessions。"""
     roots = [CODEX_ROOT]
     extra = os.environ.get("CODEX_HOME")
     if extra:
@@ -37,6 +40,7 @@ def codex_roots():
     roots.extend(sorted(glob.glob(os.path.join(HOME, ".codex*", "sessions"))))
     # Windows 的隔离布局：~/.codex-cli/.codex/sessions（HOME 的下一级才是 CODEX_HOME）
     roots.extend(sorted(glob.glob(os.path.join(HOME, ".codex*", ".codex", "sessions"))))
+    roots.extend(sorted(glob.glob(os.path.join(RUN_HOMES_ROOT, "*", ".codex", "sessions"))))
     seen, out = set(), []
     for root in roots:
         key = os.path.normcase(os.path.abspath(root))
@@ -118,8 +122,8 @@ def main():
         for root in codex_roots():
             print(f"已搜索: {root}")
         print(f"已搜索: {CLAUDE_ROOT}")
-        print("提示：如果这次跑在另一台机器上，把那边的 "
-              "~/.codex/sessions/.../rollout-*.jsonl 拷到 tasks/<题号>/trajectories/ 即可。")
+        print("提示：SessionID 在跑题那个窗口里能看到；找不到就用 "
+              "uv run python tools/find_sessions.py 列一下最近跑过的会话。")
         return 1
 
     for hit in hits:

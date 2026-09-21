@@ -13,6 +13,8 @@
 
 import argparse
 import datetime as dt
+import glob
+import hashlib
 import json
 import os
 import re
@@ -20,8 +22,10 @@ import shutil
 import stat
 import subprocess
 import sys
+import time
 
 import find_trajectory
+import rollout_info
 
 try:  # Windows 控制台/管道默认可能是 cp936，统一按 utf-8 输出避免中文乱码
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -33,6 +37,8 @@ TOOLS = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(TOOLS)
 TASKS = os.path.join(REPO, "tasks")
 WORKSPACE_RECORD = ".workspace"  # 记在仓库里（不进工作区，避免给模型任何"这是评测题"的暗示）
+HOME_DIR = os.path.join(os.path.expanduser("~"), ".coding-agent-tasks")
+RUN_HOMES = os.path.join(HOME_DIR, "homes")   # 每轮一个 CODEX_HOME，见 side_home()
 
 # 一道题跑两轮，工作区按 A / B 两份摆放： <题目目录>/A  <题目目录>/B
 SIDES = ("A", "B")
@@ -461,9 +467,85 @@ def cmd_new(args):
     return 0
 
 
+def copy_rollout(src, dest):
+    """把 codex CLI 写的原始 rollout 原样放进 trajectories/（一字不改）。"""
+    os.makedirs(os.path.dirname(os.path.abspath(dest)), exist_ok=True)
+    shutil.copy2(src, dest)
+    return dest
+
+
+def side_of_cwd(cwd, task_id):
+    """这条轨迹跑在哪个工作区（A / B）？认不出来就返回 ""。
+
+    判定依据是本机登记过的工作区路径，而不是目录名，免得 A / B 两份目录换个名字就认不出。
+    """
+    if not cwd:
+        return ""
+    target = os.path.normcase(os.path.abspath(cwd))
+    for side in SIDES:
+        try:
+            expected = side_path(task_id, side)
+        except SystemExit:
+            continue
+        if expected and os.path.normcase(os.path.abspath(expected)) == target:
+            return side
+    for recorded in read_workspace_records(task_id):
+        if os.path.normcase(os.path.abspath(recorded)) != target:
+            continue
+        name = os.path.basename(target.rstrip("\\/")).upper()
+        if name in SIDES:
+            return name
+    # 没登记过的老题目：退回目录名判断
+    name = os.path.basename(target.rstrip("\\/")).upper()
+    return name if name in SIDES else ""
+
+
+def check_rollout(evidence, task_id, role):
+    """原始 rollout 和这道题这一轮是否对得上；返回（问题列表, 提醒列表）。
+
+    问题会让 record 直接停下（除非 --force），提醒只打印。
+    """
+    problems, notes = [], []
+
+    if not evidence.get("session_id"):
+        problems.append("rollout 里没有 session_meta，可能不是 codex CLI 的原始文件")
+
+    found = side_of_cwd(evidence.get("cwd", ""), task_id)
+    if not found:
+        notes.append(f"认不出这条轨迹跑在哪个工作区（cwd={evidence.get('cwd') or '空'}），"
+                     f"没法自动核对是不是 {role} 这一轮")
+    elif found != role:
+        problems.append(
+            f"这条轨迹跑在 {found} 的工作区（{evidence.get('cwd')}），不是 {role} 这一轮"
+            "——两个 SessionID 很可能记反了"
+        )
+
+    cwd = evidence.get("cwd")
+    if cwd and not os.path.isdir(cwd):
+        notes.append(f"轨迹里的工作区路径在本机不存在（{cwd}），"
+                     "如果这是从别的机器考过来的，两次跑就不是同一台机器了")
+
+    window = evidence.get("model_context_window")
+    if window is None:
+        notes.append("rollout 里没读到 model_context_window，自己去确认上下文窗口是 1000000")
+    elif window != 1000000:
+        notes.append(f"上下文窗口是 {window}，不是项目要求的 1000000")
+
+    meta = load_meta(task_id)
+    prompt_md = os.path.join(task_dir(task_id), meta.get("prompt_file") or "prompt.md")
+    if os.path.isfile(prompt_md) and evidence.get("prompt_sha256"):
+        with open(prompt_md, "r", encoding="utf-8", errors="replace") as fh:
+            want = rollout_info.sha256_text(rollout_info.normalize(fh.read()))
+        if want != evidence["prompt_sha256"]:
+            problems.append("轨迹里的 prompt 和台账里的 prompt.md 对不上"
+                            "（两轮用的不是同一份 prompt）")
+
+    return problems, notes
+
+
 def cmd_record(args):
     task_id = args.id.upper()
-    role = args.role.lower()
+    role = args.role.upper()
     meta = load_meta(task_id)
     workspace = resolve_workspace(args, task_id)
     base = branches(task_id)["base"]
@@ -472,45 +554,60 @@ def cmd_record(args):
     if not git("rev-parse", "--verify", "--quiet", meta["initial_snapshot"]["sha"], check=False):
         raise SystemExit("初始环境快照 commit 在当前仓库里找不到")
 
+    hits = find_trajectory.find(args.session)
+    if not hits:
+        raise SystemExit(
+            f"没找到 SessionID {args.session} 的 rollout。\n"
+            "轨迹原样上交，找不到原始文件就没法登记；先确认 SessionID，"
+            f"或跑 uv run python tools/find_trajectory.py {args.session}"
+        )
+    src = hits[0]["path"]
+    evidence = rollout_info.rollout_evidence(src)
+    problems, notes = check_rollout(evidence, task_id, role)
+    if problems and not args.force:
+        print("这条轨迹和你要记的这一轮对不上：")
+        for item in problems:
+            print(f"  - {item}")
+        print("\n确认没问题（比如工作区搬过位置）就加 --force 重跑这条命令。")
+        return 1
+    for item in problems:
+        print(f"  ! {item}（--force 已忽略）")
+    for item in notes:
+        print(f"  · {item}")
+
     original = git("rev-parse", "--abbrev-ref", "HEAD")
-    br, sha = sync_workspace_to_branch(task_id, role, workspace)
+    br, sha = sync_workspace_to_branch(task_id, role.lower(), workspace)
     git("checkout", "-q", original)
 
-    hits = find_trajectory.find(args.session)
-    local_path = ""
-    source_path = ""
-    if hits:
-        src = hits[0]["path"]
-        source_path = src
-        traj_dir = os.path.join(task_dir(task_id), "trajectories")
-        os.makedirs(traj_dir, exist_ok=True)
-        local_path = os.path.join(traj_dir, f"{role.upper()}-{args.session}.jsonl")
-        shutil.copy2(src, local_path)
+    traj_dir = os.path.join(task_dir(task_id), "trajectories")
+    local_path = os.path.join(traj_dir, f"{role}-{args.session}.jsonl")
+    copy_rollout(src, local_path)
 
-    info = meta["runs"][role.upper()]
+    info = meta["runs"][role]
     info.update({
         "session_id": args.session,
         "branch": br,
         "product_snapshot_sha": sha,
         "product_snapshot_permalink": permalink(sha),
         "trajectory_local": local_path,
-        "trajectory_source": source_path,
+        "trajectory_source": src,
+        "evidence": evidence,
     })
     save_meta(task_id, meta)
-    commit_all(f"{task_id.upper()} record {role.upper()} ({args.session})")
+    commit_all(f"{task_id.upper()} record {role} ({args.session})")
 
-    if local_path:
-        rel = os.path.relpath(local_path, REPO).replace("\\", "/")
-        info["trajectory_url"] = raw_url(git("rev-parse", "HEAD"), rel)
-        save_meta(task_id, meta)
-        commit_all(f"{task_id.upper()} trajectory url {role.upper()}")
+    rel = os.path.relpath(local_path, REPO).replace("\\", "/")
+    info["trajectory_url"] = raw_url(git("rev-parse", "HEAD"), rel)
+    save_meta(task_id, meta)
+    commit_all(f"{task_id.upper()} trajectory url {role}")
 
-    print(f"{role.upper()} 产物快照: {sha}")
+    print(f"{role} 产物快照: {sha}")
     print(f"  branch    : {br}")
-    if hits:
-        print(f"  轨迹文件  : {hits[0]['path']}")
-    else:
-        print(f"  轨迹文件  : 未找到 SessionID {args.session} 的 jsonl，请确认 SessionID 或手动放入 trajectories/")
+    print(f"  原始 rollout: {src}")
+    print(f"  轨迹文件  : {local_path}（原样上交，未改动）")
+    print(f"  这轮跑在  : {evidence.get('cwd') or '(没读到)'}")
+    print(f"  模型/窗口 : {evidence.get('model') or '?'} / "
+          f"{evidence.get('model_context_window') or '?'}")
     if args.push:
         cmd_push(argparse.Namespace(id=task_id))
     return 0
@@ -564,13 +661,13 @@ def cmd_set(args):
             meta["runs"][role]["recording_local"] = os.path.abspath(path)
             changed.append(f"runs.{role}.recording_local")
 
-    # 轨迹 jsonl 不在本机时（例如跑在另一台机器上），至少要能把 SessionID 记下来
+    # 手动补 SessionID（正常流程由 t record 写，这里只用于补救）
     for role, sid in (("A", args.a_session), ("B", args.b_session)):
         if sid:
             meta["runs"][role]["session_id"] = sid.strip()
             changed.append(f"runs.{role}.session_id")
 
-    # 轨迹是在另一台机器上跑的：把那边导出的 jsonl 拷进仓库，report 里就是可点击的本机文件
+    # 手动指定 rollout 路径：SessionID 找不到时兜底用，文件原样拷进 trajectories/
     for role, src in (("A", args.a_trajectory), ("B", args.b_trajectory)):
         if not src:
             continue
@@ -581,9 +678,14 @@ def cmd_set(args):
         traj_dir = os.path.join(task_dir(task_id), "trajectories")
         os.makedirs(traj_dir, exist_ok=True)
         dest = os.path.join(traj_dir, name)
-        shutil.copy2(src, dest)
+        copy_rollout(src, dest)
+        evidence = rollout_info.rollout_evidence(dest)
+        problems, notes = check_rollout(evidence, task_id, role)
+        for item in problems + notes:
+            print(f"  · {item}")
         meta["runs"][role]["trajectory_local"] = dest
         meta["runs"][role]["trajectory_source"] = os.path.abspath(src)
+        meta["runs"][role]["evidence"] = evidence
         changed.append(f"runs.{role}.trajectory_local")
 
     if not changed:
@@ -627,8 +729,12 @@ def trust_project(path):
 
     Codex CLI 的信任是逐目录精确匹配的，所以每道题的 A / B 都要各写一条。
     """
-    cfg = codex_cli_config_path()
-    if not os.path.exists(cfg):
+    return trust_project_in(codex_cli_config_path(), path)
+
+
+def trust_project_in(cfg, path):
+    """把 path 写进指定 config.toml 的信任列表（两份运行环境各写各的）。"""
+    if not cfg or not os.path.exists(cfg):
         return False
     key = os.path.abspath(path).lower().replace("/", "\\")
     with open(cfg, encoding="utf-8") as fh:
@@ -641,6 +747,164 @@ def trust_project(path):
     with open(cfg, "a", encoding="utf-8") as fh:
         fh.write(f"\n[projects.'{key}']\ntrust_level = \"trusted\"\n")
     return True
+
+
+# 每轮跑题用的 CODEX_HOME 里要有的东西。skills / plugins 用目录联接（mklink /J）指回
+# 原来那份，保证两轮看到的技能与插件完全一样，也省一份磁盘。
+HARNESS_FILES = (
+    "config.toml",
+    "AGENTS.md",
+    "auth.json",
+    "version.json",
+    "installation_id",
+    ".sandbox_migration",
+    "relay_base_instructions.txt",
+    "relay_model_catalog.json",
+)
+HARNESS_LINKS = ("skills", "plugins")
+
+
+def template_home():
+    """跑题用的那份共享 CODEX_HOME（当前是 ~/.codex-cli/.codex）。"""
+    return os.path.dirname(codex_cli_config_path())
+
+
+def side_home(task_id, side):
+    """这一轮专属的 CODEX_HOME：~/.coding-agent-tasks/homes/<题号>-<A|B>/.codex"""
+    return os.path.join(RUN_HOMES, f"{task_id.upper()}-{side.upper()}", ".codex")
+
+
+def linker_dir(target, link):
+    if os.path.exists(link):
+        return True
+    os.makedirs(os.path.dirname(link), exist_ok=True)
+    if os.name == "nt":
+        proc = subprocess.run(["cmd", "/c", "mklink", "/J", link, target],
+                              capture_output=True, text=True)
+        return proc.returncode == 0
+    try:
+        os.symlink(target, link, target_is_directory=True)
+        return True
+    except OSError:
+        return False
+
+
+def ensure_side_home(task_id, side, workspaces=()):
+    """给这一轮准备一个独立的 CODEX_HOME，返回 (wrapper 路径, 说明列表, 问题列表)。
+
+    同一台机器上两轮共用一份 CODEX_HOME 的时候，两轮的 sessions 和 history 是同一个
+    目录：另一轮的完整对话就躺在那里，谁都能翻。单机跑的话这是最容易漏的一条，
+    所以每轮给一份自己的 home——同一个模板铺出来，两轮内容完全一致，只是会话各存各的。
+    """
+    home = side_home(task_id, side)
+    src = template_home()
+    notes, problems = [], []
+    if not os.path.isdir(src):
+        return "", notes, [f"找不到模板 CODEX_HOME: {src}"]
+    os.makedirs(home, exist_ok=True)
+
+    for name in HARNESS_FILES:
+        source = os.path.join(src, name)
+        if not os.path.exists(source):
+            continue
+        dest = os.path.join(home, name)
+        if name == "config.toml" or not os.path.exists(dest):
+            shutil.copy2(source, dest)
+    for name in HARNESS_LINKS:
+        source = os.path.join(src, name)
+        if os.path.exists(source) and not linker_dir(source, os.path.join(home, name)):
+            problems.append(f"没能把 {name} 链接到 {home}")
+
+    # config 每次都从模板重铺一遍，再补上本题两轮的信任项：
+    # A / B 两份内容逐字节一致，这本身就是「同一个 harness 配置」的证据。
+    cfg = os.path.join(home, "config.toml")
+    for path in workspaces:
+        trust_project_in(cfg, path)
+    notes.append(f"运行环境: {home}")
+
+    # 启动器用这份 home 的 wrapper：它自己把 CODEX_HOME 指过来，不再走共享的那份
+    wrapper_src = os.path.join(src, "bin", "codexr.cmd")
+    wrapper_dst = os.path.join(home, "bin", "codexr.cmd")
+    if not os.path.isfile(wrapper_src):
+        problems.append(f"找不到 codexcli 的 wrapper: {wrapper_src}")
+        return "", notes, problems
+    with open(wrapper_src, encoding="utf-8", errors="replace") as fh:
+        text = fh.read()
+    # 注意：re 的替换串会把 \ 当转义，这里用函数式替换
+    patched, count = re.subn(r'set "CODEX_HOME=[^"]*"',
+                             lambda _m: f'set "CODEX_HOME={home}"', text, count=1)
+    if not count:
+        problems.append(f"{wrapper_src} 里没找到 CODEX_HOME 那一行，没法给这一轮隔离会话目录")
+    os.makedirs(os.path.dirname(wrapper_dst), exist_ok=True)
+    with open(wrapper_dst, "w", encoding="ascii", errors="replace", newline="") as fh:
+        fh.write(patched)
+    return wrapper_dst, notes, problems
+
+
+def config_hash(path):
+    try:
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
+    except OSError:
+        return ""
+
+
+WIN_PATH_RE = re.compile(r"[A-Za-z]:\\[^\"'<>\r\n|:*?]{3,}")
+
+
+def stale_gradle_caches(gradle_home):
+    """找出缓存里指向本机已不存在路径的那些条目（上一次在别的路径跑留下的）。"""
+    stale = []
+    for sub in sorted(glob.glob(os.path.join(gradle_home, "caches", "jars-9", "*"))):
+        if not os.path.isdir(sub):
+            continue
+        found = set()
+        for dirpath, _dirs, files in os.walk(sub):
+            for name in files:
+                full = os.path.join(dirpath, name)
+                try:
+                    if os.path.getsize(full) > 512 * 1024:
+                        continue
+                    with open(full, "rb") as fh:
+                        text = fh.read().decode("utf-8", errors="ignore")
+                except OSError:
+                    continue
+                found.update(WIN_PATH_RE.findall(text))
+        if found and not any(os.path.exists(p) for p in found):
+            stale.append(sub)
+    return stale
+
+
+def environment_hygiene(workspace):
+    """开工前清掉会让两轮起点不一样的残留（Gradle 的构建缓存与临时文件）。
+
+    ZZ-012 上就撞到过：项目本身是干净的，但全局 Gradle 缓存里留着上一次在
+    C:\\meterroll-build 跑出来的 test worker classpath，两轮都得先自己排掉这个坑。
+    """
+    notes = []
+    gradle_home = os.environ.get("GRADLE_USER_HOME") or os.path.join(
+        os.path.expanduser("~"), ".gradle")
+    tmp_dir = os.path.join(gradle_home, ".tmp")
+    now = time.time()
+    removed = 0
+    for path in glob.glob(os.path.join(tmp_dir, "gradle-worker-classpath*")):
+        try:
+            # 只动一小时前留下的：可能还有别的窗口正在跑
+            if now - os.path.getmtime(path) < 3600:
+                continue
+            os.remove(path)
+            removed += 1
+        except OSError:
+            pass
+    if removed:
+        notes.append(f"清掉 {removed} 个过期的 gradle worker classpath 临时文件")
+    stale = stale_gradle_caches(gradle_home)
+    for path in stale:
+        shutil.rmtree(path, ignore_errors=True)
+    if stale:
+        notes.append(f"清掉 {len(stale)} 个指向已删除路径的 Gradle 构建缓存"
+                     "（这些残留会让测试 worker 找不到类）")
+    return notes
 
 
 def workspace_dirty(workspace):
@@ -741,6 +1005,37 @@ def cmd_cycle(args):
                 print(f"    {label}: {item}")
     else:
         print("  已核验：与初始环境逐文件一致，没有任何残留")
+
+    # 开工前的环境保洁：清掉会让这一轮和另一轮起点不一样的共享残留
+    if not getattr(args, "no_hygiene", False):
+        for note in environment_hygiene(workspace):
+            print(f"  {note}")
+
+    # 这一轮专属的运行环境（会话各存各的），两轮的 config 内容保持一致
+    if getattr(args, "shared_home", False):
+        print("  运行环境: 用共享的 CODEX_HOME（--shared-home）——会话目录两轮共用，"
+              "别让窗口里跑的东西去看别处的 rollout")
+    else:
+        siblings = []
+        for other in SIDES:
+            try:
+                siblings.append(side_path(task_id, other))
+            except SystemExit:
+                continue
+        wrapper, home_notes, home_problems = ensure_side_home(task_id, side, siblings)
+        for note in home_notes:
+            print(f"  {note}")
+        for problem in home_problems:
+            print(f"  ! {problem}")
+        if wrapper:
+            other = [s for s in SIDES if s != side]
+            if other:
+                peer = side_home(task_id, other[0])
+                mine = config_hash(os.path.join(side_home(task_id, side), "config.toml"))
+                theirs = config_hash(os.path.join(peer, "config.toml"))
+                if mine and theirs and mine != theirs:
+                    print(f"  ! A / B 的 codex 配置不一致（{mine[:8]} vs {theirs[:8]}），"
+                          "两轮 harness 配置必须一样，先查一下")
     return 0
 
 
@@ -778,6 +1073,7 @@ def write_launchers(task_id, root, meta):
     for side in SIDES:
         label = f"{task_id.upper()}-{side} {slug}"
         path = os.path.join(root, f"{side}-run.cmd")
+        home = side_home(task_id, side)
         # .cmd 必须是纯 ASCII：cmd.exe 按 OEM 代码页解析文件，中文注释会出乱码
         body = (
             "@echo off\r\n"
@@ -789,6 +1085,8 @@ def write_launchers(task_id, root, meta):
             f'set "TASK={task_id.upper()}"\r\n'
             f'set "SIDE={side}"\r\n'
             f'set "REPO={REPO}"\r\n'
+            "rem this round keeps its own CODEX_HOME so the two rounds never share sessions\r\n"
+            f'set "CODEX_HOME={home}"\r\n'
             r'set "LOGDIR=%USERPROFILE%\.coding-agent-tasks\logs"' + "\r\n"
             r'set "LOG=%LOGDIR%\%TASK%-%SIDE%.log"' + "\r\n"
             r'if not exist "%LOGDIR%" mkdir "%LOGDIR%"' + "\r\n"
@@ -805,12 +1103,17 @@ def write_launchers(task_id, root, meta):
             'set "RC=%ERRORLEVEL%"\r\n'
             "popd\r\n"
             'if not "%RC%"=="0" goto fail\r\n'
+            'set "RUNNER=%CODEX_HOME%\\bin\\codexr.cmd"\r\n'
+            'if exist "%RUNNER%" goto runner_ok\r\n'
+            'echo [launcher] per-round runner missing, falling back to codexcli>>"%LOG%"\r\n'
             'where codexcli >>"%LOG%" 2>&1\r\n'
             "if errorlevel 1 goto fail\r\n"
+            'set "RUNNER=codexcli"\r\n'
+            ":runner_ok\r\n"
             "where wt >nul 2>nul\r\n"
             "if errorlevel 1 goto plain\r\n"
             'wt -w 0 nt --title "%LABEL%" --tabColor "%COLOR%" '
-            '--suppressApplicationTitle -d "%DIR%" cmd /k codexcli\r\n'
+            '--suppressApplicationTitle -d "%DIR%" cmd /k call "%RUNNER%"\r\n'
             'set "RC=%ERRORLEVEL%"\r\n'
             'echo wt exit=%RC%>>"%LOG%"\r\n'
             'if not "%RC%"=="0" goto plain\r\n'
@@ -820,7 +1123,7 @@ def write_launchers(task_id, root, meta):
             "exit /b 0\r\n"
             ":plain\r\n"
             'echo starting in a separate window>>"%LOG%"\r\n'
-            'start "%LABEL%" /D "%DIR%" cmd /k codexcli\r\n'
+            'start "%LABEL%" /D "%DIR%" cmd /k call "%RUNNER%"\r\n'
             "exit /b 0\r\n"
             ":fail\r\n"
             "echo.\r\n"
@@ -1210,13 +1513,15 @@ def build_parser():
     n.add_argument("--no-push", dest="push", action="store_false")
     n.set_defaults(push=True, func=cmd_new)
 
-    r = sub.add_parser("record", help="记录 A/B 的产物快照与轨迹")
+    r = sub.add_parser("record", help="记录 A/B 的产物快照与轨迹（轨迹原样上交）")
     r.add_argument("id")
     r.add_argument("role", choices=["a", "b"])
     r.add_argument("--workspace")
     r.add_argument("--side", help="a 或 b：用 <题目目录>\\A|B 约定定位工作区")
     r.add_argument("--root", help="工作区根目录（默认用本机登记过的）")
     r.add_argument("--session", required=True)
+    r.add_argument("--force", action="store_true",
+                   help="轨迹和这一轮对不上（换过工作区路径等）时仍然记录")
     r.add_argument("--no-push", dest="push", action="store_false")
     r.set_defaults(push=True, func=cmd_record)
 
@@ -1251,6 +1556,10 @@ def build_parser():
     cy.add_argument("--side", help="a 或 b")
     cy.add_argument("--workspace")
     cy.add_argument("--root")
+    cy.add_argument("--no-hygiene", dest="no_hygiene", action="store_true",
+                    help="跳过 Gradle 残留清理")
+    cy.add_argument("--shared-home", dest="shared_home", action="store_true",
+                    help="不用每轮隔离的 CODEX_HOME（两轮共用会话目录，默认不用）")
     cy.set_defaults(func=cmd_cycle)
 
     rb = sub.add_parser("rebuild", help="按登记重新铺出所有题目的 A / B 工作区与启动器")
@@ -1276,12 +1585,12 @@ def build_parser():
     st.add_argument("--reason-author", dest="reason_author", help="理由作者，默认本人")
     st.add_argument("--a-recording", dest="a_recording")
     st.add_argument("--b-recording", dest="b_recording")
-    st.add_argument("--a-session", dest="a_session", help="A 的 SessionID（轨迹不在本机时用）")
+    st.add_argument("--a-session", dest="a_session", help="A 的 SessionID（补救用）")
     st.add_argument("--b-session", dest="b_session", help="B 的 SessionID")
     st.add_argument("--a-trajectory", dest="a_trajectory",
-                    help="从另一台机器导出的 A 轨迹 jsonl，拷进仓库")
+                    help="手动指定 A 的 rollout jsonl（按 SessionID 找不到时兜底）")
     st.add_argument("--b-trajectory", dest="b_trajectory",
-                    help="从另一台机器导出的 B 轨迹 jsonl，拷进仓库")
+                    help="手动指定 B 的 rollout jsonl")
     st.add_argument("--no-push", dest="push", action="store_false")
     st.set_defaults(push=True, func=cmd_set)
 

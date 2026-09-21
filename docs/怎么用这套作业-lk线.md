@@ -129,7 +129,9 @@ t new zh-001 --workspace <起始环境目录> --prompt-file p.txt ^
 桌面\GSB题目\ZH-001\B-run.cmd     ← B 轮
 ```
 
-双击后会：开一个带名字和颜色的终端标签 → **存档上一轮 + 把工作区清成全新并逐文件核验** → 启动 codexcli。
+双击后会：开一个带名字和颜色的终端标签 → **存档上一轮 + 把工作区清成全新并逐文件核验**
+→ 清掉会让两轮起点不一致的 Gradle 残留 → 铺好**这一轮专属的运行环境**（会话各存各的，
+另一轮看不到）→ 启动 codexcli。
 
 ### 3.2 三条铁律
 
@@ -230,7 +232,8 @@ submit zh-001 --uid 14X       :: 上传提交表（默认 dry-run）
   └─ prompt原文/         <题号>-<项目名>.txt（双击就能复制）
 
 失败存档    C:\Users\<你>\.coding-agent-tasks\runs\<题号>\<A|B>-<时间戳>\
-跑题轨迹    C:\Users\<你>\.codex-cli\sessions\YYYY\MM\DD\rollout-*.jsonl
+每轮运行环境 C:\Users\<你>\.coding-agent-tasks\homes\<题号>-<A|B>\.codex\
+跑题轨迹    <每轮运行环境>\sessions\YYYY\MM\DD\rollout-*.jsonl   （原样上交，不清洗）
 ```
 
 ---
@@ -241,6 +244,8 @@ submit zh-001 --uid 14X       :: 上传提交表（默认 dry-run）
 |---|---|
 | 开窗口就问「是否信任此目录」 | 目录没登记。本线启动器会自动登记；手动开的窗口要自己加进 `~/.codex-cli/config.toml` 的 `[projects.'<路径>']` |
 | 新窗口里能看到上一轮跑的东西 | 上一轮没清。用启动器开窗（会自动清+核验），或手动 `t cycle <题号> --side a` |
+| 两个 SessionID 记反了 | `t record` 会拿轨迹里的工作区路径对一遍，填错栏直接停下；确实是搬过目录再加 `--force` |
+| 轨迹文件旁边还想要 clean 版 | 不需要了：轨迹**原样上交**，核验用的事实（cwd / 模型 / 窗口 / prompt 哈希）记在 `meta.json` 的 `runs.A/B.evidence` 里 |
 | `PermissionError: 另一个程序正在使用此文件` | 那个 A / B 目录还有窗口开着。**先关窗口**再清 |
 | 目录被删了一半 | 别在有窗口开着时删目录。用 `t cycle`（原地清，不删目录） |
 | 题号跟别人撞了 | 换自己的前缀。两条线并存，题号必须错开 |

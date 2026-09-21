@@ -17,6 +17,8 @@ main                        题目台账：题目信息、prompt、轨迹、索�
 └── tools/                  自动化脚本
     ├── task.py             建题 / 记录 A/B / 重置 / 出字段
     ├── find_trajectory.py  按 SessionID 在本机找 jsonl
+    ├── rollout_info.py     从原始 rollout 里抠出核验用的事实（cwd、模型、窗口、prompt）
+    ├── ready.py            跑完自动对账：会话 → 产物快照 → 回填台账
     └── submit.py           把字段（含附件）推到飞书提交表
 
 t001/base                   初始环境快照（这题的工作区代码）
@@ -25,6 +27,9 @@ t001/base                   初始环境快照（这题的工作区代码）
 ```
 
 代码放在按题命名的分支上（`t<编号>/base|a|b`），台账放在 `main`。这样模型跑题时工作区里只有这一题的代码，不会被其他题目干扰。
+
+本机状态（进不了仓库的东西）都在 `~/.coding-agent-tasks/`：工作区登记、
+每轮的运行环境 `homes/`、上一轮存档 `runs/`、启动器日志 `logs/`。
 
 ## 先读这个
 
@@ -135,53 +140,86 @@ t rebuild                                :: 桌面误删/换机器后，一键�
   而且建新题时会清空仓库工作区，记在 `tasks/` 里会被一起清掉。
 - 以前那种 `--workspace D:\...\ws-T006-a` 的写法仍然能用，不改也能跑。
 
-## 两台电脑一起跑
+## 只在一台机器上跑
 
-台账（`main`）和每道题的代码分支（`t00X/base|a|b`）都在 GitHub 上，所以在另一台机器上
-`git pull`（或重新 clone）之后，两边的题目都能看见、都能接着跑。
+项目文档要求两次跑**同一台机器、同一操作系统、同一环境**（见 `docs/项目要点与注意事项.md`
+第 3 节），所以 A 和 B 都在这一台上跑，不存在"A 在这台、B 在那台"的用法。
 
-**在第二台机器上开始跑某道已经建好的题**（例如 T003）：
+同一台机器上要防的是**两轮互相看见**。以前两轮共用一份 `CODEX_HOME`，`sessions/` 和
+`history.jsonl` 是同一个目录——另一轮跑完的完整对话就躺在那里，谁都能翻。现在每次
+`t cycle`（也就是双击 A-run.cmd / B-run.cmd 时）会给这一轮铺一份自己的运行环境：
 
-```bat
-git pull
-t reset T003 --workspace D:\work\T003
+```
+~/.coding-agent-tasks/homes/<题号>-<A|B>/.codex/
 ```
 
-`reset` 会把 `t003/base` 的内容铺到工作区、顺手把工作区初始化成 git 仓库
-（以后重置就走 `reset --hard` + `clean -fdx`），然后就可以照常跑 A / B。
+两轮的 `config.toml` 从同一个模板铺出来（`t cycle` 会顺手比对哈希，不一致会报），
+技能和插件用目录联接指回原来那份，**只有 sessions / history / 状态库各存各的**。
+启动器里写死了这一轮的 `CODEX_HOME`，所以从启动器开出来的窗口天然就是隔离的。
 
-**轨迹在另一台机器上跑出来的**（例如 A 在 A 机、B 在 B 机）：
+如果哪次窗口是从别处开的（比如手敲 `codexcli`），那就落在共享的那份 `CODEX_HOME` 里，
+隔离不生效——这时用 `t cycle <题号> --side a` 自己铺一遍，或者干脆用启动器。
+
+**台账和分支仍然都在 GitHub 上**，换机器时 `git clone` 之后（工作区登记是本机状态，
+新机器上还没有，所以要带 `--force`）：
 
 ```bat
-:: 在跑出轨迹的那台机器上，先找到文件
-uv run python tools/find_trajectory.py <SessionID>
-:: 把那两个 jsonl 拷到这台机器，然后登记进台账
-t set T003 --a-session <A-SessionID> --b-session <B-SessionID> ^
-           --a-trajectory D:\from-other-pc\A.jsonl ^
-           --b-trajectory D:\from-other-pc\B.jsonl
+t reset T003 --workspace D:\work\T003 --force    :: 铺出初始环境
+t prep  T003 --root D:\work\T003                 :: 想要 A / B 两份 + 启动器就用这个
 ```
-
-登记完 `t report T003` 就会把两条轨迹输出成**可点击直达本机文件**的链接。
-注意：一台机器只能提供自己跑出来的产物快照，跨机器的那次跑要由**跑它的那台机器**提交
-产物快照分支（A、B 的快照分支都必须在同一个远端仓库里，父提交是同一个 `t00X/base`）。
 
 ## 每道题的标准流程
 
 1. **准备初始环境**：把题目要用的工作区准备好（干净、可运行），然后
    `t new T001 --workspace <工作区> --prompt-file <prompt.txt> --lang "..." --difficulty 困难 --harness "Codex CLI" --harness-version "0.153.4" --os Windows --task-type "0-1 代码生成" --env-level "无外部依赖"`
    → 生成 `t001/base` 分支并拿到**初始环境快照** SHA（必须在首轮开始前完成）。
-2. **跑 A**：auto 模型、只跑首轮、不追问不纠错。跑完立刻
-   `t record T001 a --workspace <工作区> --session <SessionID>`
-3. **重置**：`t reset T001 --workspace <工作区>`
-   （恢复初始环境并清掉 node_modules / venv / 构建产物等未跟踪文件）
-4. **跑 B**：prompt、Harness 和版本、机器都要与 A 完全一致，同样只跑首轮。跑完
-   `t record T001 b --workspace <工作区> --session <SessionID>`
+2. **跑 A**：双击题目目录里的 `A-run.cmd`（它会先存档上一轮、把 A 清成全新、
+   清掉会让两轮起点不一致的 Gradle 残留、再铺好这一轮独立的运行环境），
+   然后用 auto 模型只跑首轮、不追问不纠错。跑完立刻
+   `t record T001 a --side a --session <SessionID>`
+3. **再开 B**：双击 `B-run.cmd`，同样先把 B 清成全新（A 的工作区不动）。两次跑
+   prompt、Harness 和版本、机器完全一致。
+4. **跑 B**：跟 A 一样的跑法，跑完
+   `t record T001 b --side b --session <SessionID>`
 5. **录屏**：A/B 各录一段，放到 `tasks/T001/recordings/A-*.mp4`、`B-*.mp4`，
    或用 `t set T001 --a-recording <路径> --b-recording <路径>` 登记。
 6. **写 GSB**（人来写）：`t set T001 --gsb-conclusion "A 更好" --gsb-reason-file reason.md`
 7. **取字段**：`t report T001`（不写题号就输出全部）→ 直接给出发提交表的内容，
    轨迹文件会输出成**可点击直达本机文件**的链接。
 8. **上传**：`submit T001` 先 dry-run 看一遍，确认后 `submit T001 --write`。
+
+## 轨迹文件：原样上交，不做清洗
+
+提交表要的就是 codex CLI 自己写的那份 rollout（`~/.codex*/sessions/.../rollout-*.jsonl`），
+所以 `t record` 现在是**逐字节拷进 `tasks/<题号>/trajectories/`**，不改一个字符。
+以前那套"清成只有 prompt + 模型这一轮"的做法连同 `clean_trajectory.py` 一起取消了。
+
+不清洗不等于不核对。原始文件里 harness 塞了不少东西（技能清单、环境上下文、权限说明、
+world_state、turn_context、token 计数），直接看很难对账，所以 `t record` 会顺手把关键事实
+抠出来存进 `meta.json` 的 `runs.A/B.evidence`：
+
+| 证据 | 用途 |
+|---|---|
+| `cwd` | 这条轨迹跑在哪个工作区 —— 用来判断它到底是 A 还是 B |
+| `model` / `model_context_window` | 项目要求 auto 模型 + 1000000 窗口，跑完直接核 |
+| `cli_version` | Harness 版本，两轮必须一致 |
+| `prompt_sha256` / `prompt_chars` | 和 `tasks/<题号>/prompt.md` 比对，确认两轮同一份 prompt |
+| `harness_parts` / `harness_chars` | 两轮注入的内容长度指纹，对不上说明环境变了 |
+| `raw_sha256` / `raw_lines` | 交上去那份文件的指纹，事后可复核 |
+
+`t record` 会在记账前先拦一道：
+
+```bat
+t record T006 a --side a --session <A-SessionID>
+```
+
+- 轨迹的 `cwd` 不是这道题的 A 工作区 → 直接停下（十有八九是两个 SessionID 记反了），
+  确认没问题再加 `--force`
+- 轨迹里的 prompt 和 `prompt.md` 对不上 → 停下
+- 上下文窗口不是 1000000、轨迹里的工作区在本机不存在 → 打印提醒
+
+`submit` 之前的自查同样按这个口径走：轨迹必须是带 `session_meta` 的原始 rollout，
+prompt 要和 `prompt.md` 一致，窗口要是 1000000，而且不能填错栏。
 
 ## 提交表字段对照
 
@@ -215,10 +253,13 @@ submit T003 --write                           :: 真正写表（会二次确认�
 ## 硬性约束（来自项目文档）
 
 - 初始环境快照必须在**首轮开始前**提交；A、B 产物快照的父提交都必须是它。
+- 两次跑必须**同一台机器、同一环境**（项目文档第 3 节）；换机器跑的 A / B 不算一对。
 - 跑 B 之前必须把工作区重置回初始环境，并清掉未跟踪文件。
 - 记录过的 SHA 不要 `amend`、`rebase`、`force-push`，否则历史改写后 SHA 不可达，数据会被打回。
 - 只用 40 位完整 SHA，不要用短 SHA、分支名或 tag 代替。
 - 两次跑之间不要改任何配置（`max context token` 保持 1000000），差异只应来自模型本身。
+- 轨迹**原样上交**，不对 rollout 做任何删改；要核验的事实从原始文件里提取后记进 `meta.json`。
+- 两轮各自一份 `CODEX_HOME`（自动化，见上文），别让某一轮的窗口去翻另一轮的会话目录。
 - 跑 A、B 时窗口里**只能有 prompt**；遇到 api error / 504 / 无报错中断就**新开窗口重跑**。
 - 录屏：从干净状态启动、完整展示真实输出、**90 秒以内、720p、mp4**，跑不起来也要录报错。
 - 不要把 `.env`、密钥、token、连接串提交进仓库；本仓库的 `.gitignore` 已覆盖常见情况，提交前仍要自查。
@@ -231,11 +272,13 @@ t list                              # 列出所有题目与状态
 t report                            # 输出全部题目的提交字段
 t report T003                       # 只输出某一题
 uv run python tools/find_trajectory.py <SessionID>   # 按 SessionID 找轨迹文件
+uv run python tools/ready.py                         # 跑完自动对账（只看不动）
+t cycle T006 --side a                                # 把 A 清成全新（启动器里就是调它）
 ```
 
 `find_trajectory.py` 会扫 `~/.codex/sessions`、`$CODEX_HOME/sessions`、家目录下所有
-`.codex*/sessions`，以及 `~/.claude/projects`。轨迹是在**另一台机器**上跑的时候，
-把那边的 `rollout-*.jsonl` 拷进 `tasks/<题号>/trajectories/` 即可。
+`.codex*/sessions`、每轮隔离出来的 `~/.coding-agent-tasks/homes/*/.codex/sessions`，
+以及 `~/.claude/projects`。
 
 ## 交给助手（Codex）时，请提供
 

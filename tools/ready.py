@@ -13,6 +13,7 @@
 
 import argparse
 import datetime as dt
+import glob
 import json
 import os
 import re
@@ -23,12 +24,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import submit as submit_mod  # noqa: E402
 import task as task_mod  # noqa: E402
+import rollout_info  # noqa: E402
 
 HOME = os.path.expanduser("~")
 SESSION_ROOTS = [
     os.path.join(HOME, ".codex-cli", "sessions"),
+    os.path.join(HOME, ".codex-cli", ".codex", "sessions"),
     os.path.join(HOME, ".codex", "sessions"),
 ]
+# 每轮跑题用的独立 CODEX_HOME（见 tools/task.py 的 ensure_side_home）
+SESSION_ROOTS.extend(sorted(glob.glob(
+    os.path.join(HOME, ".coding-agent-tasks", "homes", "*", ".codex", "sessions"))))
 SETTLE_SECONDS = 60      # 轨迹多久没动才算停下来
 WINDOW_MATCH_SECONDS = 30  # 会话开始时间和进程启动时间差多少算同一个窗口
 SUSPECT_LINES = 80       # 轨迹行数少于这个数，多半是中断的那一轮，不自动回填
@@ -237,11 +243,17 @@ def backfill(task_id, cfg, uid, record_id):
             continue
         br, sha = task_mod.sync_workspace_to_branch(task_id, role, ws)
         info = meta["runs"][side.upper()]
+        evidence = rollout_info.rollout_evidence(sess["path"])
+        problems, notes = task_mod.check_rollout(evidence, task_id, side.upper())
+        for item in problems:
+            out.append(f"  ! {side}: {item}")
+        for item in notes:
+            out.append(f"  · {side}: {item}")
         info.update({"session_id": sess["session"], "branch": br,
                      "product_snapshot_sha": sha,
                      "product_snapshot_permalink": task_mod.permalink(sha),
                      "trajectory_local": "", "trajectory_source": sess["path"],
-                     "trajectory_url": ""})
+                     "trajectory_url": "", "evidence": evidence})
         traj_dir = os.path.join(task_mod.task_dir(task_id), "trajectories")
         os.makedirs(traj_dir, exist_ok=True)
         dest = os.path.join(traj_dir, f"{side.upper()}-{sess['session']}.jsonl")

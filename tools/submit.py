@@ -29,6 +29,9 @@ import shutil
 import subprocess
 import sys
 
+import rollout_info
+import task as task_tool
+
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(TOOLS)
 TASKS = os.path.join(REPO, "tasks")
@@ -260,11 +263,45 @@ def check_blockers(meta, task_id, fields, attach):
             problems.append(f"缺 {role}-产物快照（40 位完整 SHA 的 permalink）")
         if f"{role}-轨迹文件" not in attach:
             problems.append(f"找不到 {role}-轨迹文件（jsonl）")
+        else:
+            problems.extend(f"{role}-轨迹文件：{msg}" for msg in trajectory_issues(
+                attach[f"{role}-轨迹文件"][0], task_id, role))
         if f"{role}-运行录屏" not in attach:
             problems.append(f"找不到 {role}-运行录屏（mp4，90 秒内 / 720p）")
 
     # 产物快照的父提交必须是初始环境快照
     return problems
+
+
+def trajectory_issues(path, task_id, role=""):
+    """轨迹是 codex CLI 写的原始 rollout：核验它确实是这一轮、prompt 也没跑偏。"""
+    try:
+        lines = rollout_info.read_lines(path)
+    except OSError as exc:
+        return [f"读不了（{exc}）"]
+
+    issues = []
+    evidence = rollout_info.rollout_evidence(path)
+    if not evidence.get("session_id"):
+        issues.append("文件里没有 session_meta，不像是 codex CLI 的原始 rollout")
+    if evidence.get("cwd") and role:
+        found = task_tool.side_of_cwd(evidence["cwd"], task_id)
+        if found and found != role:
+            issues.append(f"这条轨迹跑在 {found} 的工作区（{evidence['cwd']}），"
+                          f"却填在 {role} 这一栏")
+    window = evidence.get("model_context_window")
+    if window is not None and window != 1000000:
+        issues.append(f"上下文窗口是 {window}，不是项目要求的 1000000")
+
+    prompt = rollout_info.prompt_text(lines)
+    prompt_md = os.path.join(task_dir(task_id), "prompt.md")
+    if os.path.isfile(prompt_md):
+        with open(prompt_md, "r", encoding="utf-8", errors="replace") as fh:
+            want = rollout_info.normalize(fh.read())
+        if rollout_info.normalize(prompt) != want:
+            issues.append("轨迹里的 prompt 和 tasks/%s/prompt.md 对不上（跑的那版 prompt "
+                          "和台账里存的不是同一份）" % task_id)
+    return issues
 
 
 def parent_of(sha):

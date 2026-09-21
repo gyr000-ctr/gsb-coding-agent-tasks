@@ -2,13 +2,15 @@
 
     python tools/find_sessions.py [条数]
 
-同时扫三个位置：
-    ~/.codex-cli/sessions    隔离配置的 Codex CLI
-    ~/.codex/sessions        桌面版 Codex
-    ~/.claude/projects       Claude Code
+同时扫这几个位置：
+    ~/.codex-cli/.codex/sessions                       跑题用的 CODEX_HOME
+    ~/.coding-agent-tasks/homes/<题号>-<A|B>/.codex/   每轮隔离出来的运行环境
+    ~/.codex/sessions                                  桌面版 Codex
+    ~/.claude/projects                                 Claude Code
 """
 
 import datetime as dt
+import glob
 import json
 import os
 import re
@@ -17,10 +19,16 @@ import sys
 
 HOME = os.path.expanduser("~")
 ROOTS = [
+    ("CLI", os.path.join(HOME, ".codex-cli", ".codex", "sessions")),
     ("CLI", os.path.join(HOME, ".codex-cli", "sessions")),
     ("Desktop", os.path.join(HOME, ".codex", "sessions")),
     ("Claude", os.path.join(HOME, ".claude", "projects")),
 ]
+ROOTS.extend(
+    (os.path.basename(os.path.dirname(os.path.dirname(root))) or "CLI", root)
+    for root in sorted(glob.glob(os.path.join(
+        HOME, ".coding-agent-tasks", "homes", "*", ".codex", "sessions")))
+)
 
 
 def prompt_head(path, chars=60):

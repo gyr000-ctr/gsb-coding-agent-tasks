@@ -4,6 +4,7 @@
 """
 
 import datetime as dt
+import glob
 import json
 import os
 import sys
@@ -15,6 +16,9 @@ ROOTS = [
     os.path.join(HOME, ".codex-cli", ".codex", "sessions"),
     os.path.join(HOME, ".codex", "sessions"),
 ]
+# 每轮跑题用的独立 CODEX_HOME（见 tools/task.py 的 ensure_side_home）
+ROOTS.extend(sorted(glob.glob(os.path.join(
+    HOME, ".coding-agent-tasks", "homes", "*", ".codex", "sessions"))))
 
 
 def main():
