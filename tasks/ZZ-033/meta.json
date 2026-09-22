@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-033",
+  "title": "cronplan 定时任务编排：cron 展开与依赖级联（从 0 实现）",
+  "created_at": "2026-09-22T14:44:46",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-033/base",
+    "sha": "059481a486943f55c55cda4f05345cb4af060244",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/059481a486943f55c55cda4f05345cb4af060244"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-033/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-033/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
