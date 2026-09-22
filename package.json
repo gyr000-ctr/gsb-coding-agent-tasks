@@ -1,0 +1,14 @@
+{
+  "name": "invoicer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "有效日期计费：按月分摊出账、追溯改价与补收退款",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/billing.test.js test/lifecycle.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
