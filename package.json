@@ -1,0 +1,14 @@
+{
+  "name": "auditlog",
+  "version": "0.1.0",
+  "private": true,
+  "description": "审计日志：事件写入与脱敏、按时间与操作人查询、保留期裁剪",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/append.test.js test/query.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
