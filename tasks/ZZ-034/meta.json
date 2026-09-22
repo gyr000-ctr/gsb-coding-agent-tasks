@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-034",
+  "title": "seqmerge 协同文本副本与收敛合并（从 0 实现）",
+  "created_at": "2026-09-22T14:47:05",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-034/base",
+    "sha": "0e6922040b9550dba151134aba3ba795b02309e0",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/0e6922040b9550dba151134aba3ba795b02309e0"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-034/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-034/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
