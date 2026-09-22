@@ -1,0 +1,14 @@
+{
+  "name": "idempotent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "幂等执行层：请求指纹、结果回放、冲突检测与过期清理",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/run.test.js test/store.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
