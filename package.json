@@ -1,0 +1,14 @@
+{
+  "name": "webhookout",
+  "version": "0.1.0",
+  "private": true,
+  "description": "出站 Webhook：订阅匹配、签名与幂等键、重试退避、410 停投",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/dispatch.test.js test/retry.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
