@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-043",
+  "title": "migrationplan 迁移编排与校验和漂移（从 0 实现）",
+  "created_at": "2026-09-22T15:24:46",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:crypto, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-043/base",
+    "sha": "d57619554c9a9d2ddccdfe833d4edde8d7d9831e",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/d57619554c9a9d2ddccdfe833d4edde8d7d9831e"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-043/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-043/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
