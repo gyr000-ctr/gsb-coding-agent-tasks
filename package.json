@@ -1,0 +1,14 @@
+{
+  "name": "cursorkit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "稳定游标分页：多键排序、签名游标、增删行不串页",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/cursor.test.js test/page.test.js test/stability.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
