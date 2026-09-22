@@ -1,0 +1,14 @@
+{
+  "name": "linkguard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "私有下载链接签名与校验：路径规范化、有效期、防篡改",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/sign.test.js test/verify.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
