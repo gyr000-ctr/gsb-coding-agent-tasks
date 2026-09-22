@@ -1,0 +1,14 @@
+{
+  "name": "sigv4",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AWS SigV4 风格请求签名：规范请求、派生密钥、预签名与校验",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/canonical.test.js test/sign.test.js test/presign.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
