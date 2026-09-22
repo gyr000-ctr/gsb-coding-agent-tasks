@@ -1,0 +1,14 @@
+{
+  "name": "jwksguard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JWT 校验：JWKS 多密钥轮换、算法白名单、时钟偏移与声明校验",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/token.test.js test/claims.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
