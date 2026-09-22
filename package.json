@@ -1,0 +1,14 @@
+{
+  "name": "sessionvault",
+  "version": "0.1.0",
+  "private": true,
+  "description": "登录会话存储：滑动过期、设备数上限、刷新令牌轮换与复用检测",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/login.test.js test/refresh.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
