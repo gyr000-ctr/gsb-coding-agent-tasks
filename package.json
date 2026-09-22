@@ -1,0 +1,14 @@
+{
+  "name": "freshcache",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HTTP 缓存新鲜度、Vary 匹配与再验证决策",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/directives.test.js test/freshness.test.js test/decide.test.js test/revalidate.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
