@@ -1,0 +1,14 @@
+{
+  "name": "gateway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HTTP 入口网关：路由匹配、方法校验、请求体与必填头检查",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/route.test.js test/guard.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
