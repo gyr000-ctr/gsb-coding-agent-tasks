@@ -1,0 +1,14 @@
+{
+  "name": "configmerge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "分层配置合并：深合并、数组覆盖、环境变量插值与来源追踪",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/merge.test.js test/env.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
