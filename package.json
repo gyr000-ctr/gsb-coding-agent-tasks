@@ -1,0 +1,14 @@
+{
+  "name": "migrationplan",
+  "version": "0.1.0",
+  "private": true,
+  "description": "数据库迁移编排：依赖排序、校验和漂移与失败回退",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/plan.test.js test/apply.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
