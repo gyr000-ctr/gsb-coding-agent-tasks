@@ -1,0 +1,14 @@
+{
+  "name": "taskqueue",
+  "version": "0.1.0",
+  "private": true,
+  "description": "内存任务队列：延迟投递、可见性超时、重试与死信",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/queue.test.js test/visibility.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
