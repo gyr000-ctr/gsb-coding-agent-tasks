@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-038",
+  "title": "leaselock 租约锁与 fencing token（从 0 实现）",
+  "created_at": "2026-09-22T15:24:29",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-038/base",
+    "sha": "9939c23c9573f1e0102c8ef4496d4438907a9300",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/9939c23c9573f1e0102c8ef4496d4438907a9300"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-038/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-038/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
