@@ -73,6 +73,8 @@
    轨迹里就只剩 prompt、模型的输出和工具调用，外加 `session_meta` / `turn_context` /
    `world_state` / `event_msg` 这些记录字段（rollout 文件格式本身要有的）。
    `t record` 会把 `harness_parts` 打出来核对，只要不是空的就当场提醒，先别提交。
+   这一套（症状、为什么不去洗文件、坑清单、照搬检查清单）的完整说明见
+   `docs/轨迹里的skill注入怎么解决.md`。
 
 ## 三份 CODEX_HOME 的关系（"隔离"到底是哪一层）
 
