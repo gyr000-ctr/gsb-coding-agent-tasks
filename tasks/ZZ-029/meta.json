@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-029",
+  "title": "flagroll 灰度规则与稳定分桶（从 0 实现）",
+  "created_at": "2026-09-22T11:32:33",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-029/base",
+    "sha": "eda5becb712e44f309b58b546d4e589a6c0eb746",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/eda5becb712e44f309b58b546d4e589a6c0eb746"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-029/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-029/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
