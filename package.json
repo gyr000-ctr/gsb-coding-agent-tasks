@@ -1,0 +1,14 @@
+{
+  "name": "flagroll",
+  "version": "0.1.0",
+  "private": true,
+  "description": "灰度规则求值：命中规则、稳定分桶、百分比放量与多变体",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/roll.test.js test/rules.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
