@@ -1,0 +1,14 @@
+{
+  "name": "sheetcalc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "表格公式引擎：解析、依赖图、增量重算、循环引用与错误传播",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/formula.test.js test/recalc.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
