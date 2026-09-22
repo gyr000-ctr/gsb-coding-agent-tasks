@@ -1,0 +1,14 @@
+{
+  "name": "levelplan",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LSM 层级压缩计划：打分、选层、重叠文件、墓碑丢弃与写放大",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/config.test.js test/score.test.js test/plan.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
