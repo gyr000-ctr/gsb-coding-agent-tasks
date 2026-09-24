@@ -17,12 +17,33 @@
   },
   "runs": {
     "A": {
-      "session_id": "",
-      "trajectory_local": "",
+      "session_id": "01a0d13c-22a3-7861-adcc-22005279934b",
+      "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-044\\trajectories\\A-01a0d13c-22a3-7861-adcc-22005279934b.jsonl",
       "trajectory_url": "",
       "branch": "zz-044/a",
-      "product_snapshot_sha": "",
-      "product_snapshot_permalink": ""
+      "product_snapshot_sha": "1401f7b2ecffee31cd770f3754c0a24ec7638ded",
+      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/1401f7b2ecffee31cd770f3754c0a24ec7638ded",
+      "trajectory_source": "C:\\Users\\Administrator\\.coding-agent-tasks\\homes\\ZZ-044-A\\.codex\\sessions\\2026\\09\\24\\rollout-2026-09-24T10-26-14-01a0d13c-22a3-7861-adcc-22005279934b.jsonl",
+      "evidence": {
+        "session_id": "01a0d13c-22a3-7861-adcc-22005279934b",
+        "cwd": "C:\\Users\\Administrator\\Desktop\\GSB题目\\ZZ-044\\A",
+        "current_date": "2026-09-24",
+        "timezone": "Asia/Shanghai",
+        "model": "auto_model/urm",
+        "model_provider": "super_relay",
+        "cli_version": "0.156.1",
+        "originator": "codex-tui",
+        "model_context_window": 1000000,
+        "approval_policy": "never",
+        "sandbox_mode": "danger-full-access",
+        "raw_lines": 66,
+        "raw_bytes": 259910,
+        "raw_sha256": "2962de0f006a4671f51db616730b5a1b2b143cd85095c347e0164403b59a1668",
+        "harness_chars": 0,
+        "harness_parts": {},
+        "prompt_sha256": "5ee92ffa0b55bf41c8480f7235e4eddf6ebc90391b087bf5bea2ad1d59a7ef78",
+        "prompt_chars": 706
+      }
     },
     "B": {
       "session_id": "",
