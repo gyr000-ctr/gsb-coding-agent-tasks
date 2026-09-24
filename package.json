@@ -1,0 +1,14 @@
+{
+  "name": "tplate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "小模板引擎：插值、片段与空白处理",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/tplate.test.js test/tplate2.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
