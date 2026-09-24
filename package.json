@@ -1,0 +1,14 @@
+{
+  "name": "selmatch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CSS 选择器解析与匹配：优先级、组合子与伪类",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/parse.test.js test/match.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
