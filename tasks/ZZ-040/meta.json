@@ -6,7 +6,7 @@
   "difficulty": "困难",
   "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
   "harness": "Codex CLI",
-  "harness_version": "0.155.1",
+  "harness_version": "0.156.1",
   "os": "Windows",
   "env_level": "无外部依赖",
   "prompt_file": "prompt.md",
@@ -75,5 +75,6 @@
       }
     }
   },
-  "notes": ""
+  "notes": "",
+  "updated_at": "2026-09-24T10:45:44"
 }
