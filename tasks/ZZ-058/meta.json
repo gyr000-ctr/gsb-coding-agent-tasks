@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-058",
+  "title": "pagetable piece table 文本缓冲：行列定位、撤销重做与事务（从 0 实现）",
+  "created_at": "2026-09-24T11:52:26",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-058/base",
+    "sha": "214703e7df57bcbf3d69554153cef9b6d9cf0c97",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/214703e7df57bcbf3d69554153cef9b6d9cf0c97"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-058/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-058/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
