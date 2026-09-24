@@ -1,0 +1,14 @@
+{
+  "name": "realtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "最早截止期优先：精确利用率、超周期与抢占重演",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/analyze.test.js test/simulate.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
