@@ -2,7 +2,7 @@
   "_comment": "飞书提交表坐标。submitter_name 必须改成你在飞书里的显示名（提交表的「提交人」要和它一致）；records 里可以按题号固定 record_id，SUBMIT 就不必每次 --uid。",
   "base_token": "BPO8bK6oAaLaGNsdTudckZZYnCf",
   "table_id": "tblrqoHBXgrXZgos",
-  "submitter_name": "",
-  "submitter_open_id": "",
+  "submitter_name": "李一鸣",
+  "submitter_open_id": "ou_0bb7d1142be72442d3b5c613572c6c72",
   "records": {}
 }
