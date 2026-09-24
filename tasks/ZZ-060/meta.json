@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-060",
+  "title": "vclock 点版本向量：比较合并与因果投递（从 0 实现）",
+  "created_at": "2026-09-24T11:58:28",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-060/base",
+    "sha": "968cb3351d6129709c7c94fb34662ba08209a24f",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/968cb3351d6129709c7c94fb34662ba08209a24f"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-060/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-060/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
