@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-056",
+  "title": "cidrroute 前缀表：最长前缀匹配与按值聚合（从 0 实现）",
+  "created_at": "2026-09-24T11:48:11",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-056/base",
+    "sha": "c3fc9676305b52a11c1cd45c1b734b2e31a455cc",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/c3fc9676305b52a11c1cd45c1b734b2e31a455cc"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-056/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-056/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
