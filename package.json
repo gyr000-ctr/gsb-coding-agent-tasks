@@ -1,0 +1,14 @@
+{
+  "name": "rscodec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GF(256) 上的 Reed-Solomon 纠删码：系统性编码与任意擦除修复",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/gf.test.js test/codec.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
