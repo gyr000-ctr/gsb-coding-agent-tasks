@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-052",
+  "title": "reqsign 请求签名：规范请求、派生密钥与预签名 URL（从 0 实现）",
+  "created_at": "2026-09-24T11:09:52",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:crypto, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-052/base",
+    "sha": "275a14c8e597e82b693db01434def34e26d311be",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/275a14c8e597e82b693db01434def34e26d311be"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-052/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-052/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
