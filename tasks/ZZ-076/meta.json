@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-076",
+  "title": "rscodec GF(256) 纠删码：本原多项式、编解码与丢块重建（从 0 实现）",
+  "created_at": "2026-09-24T17:17:04",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-076/base",
+    "sha": "c1c46957401e0ad53a97237e4be15b58011a8951",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/c1c46957401e0ad53a97237e4be15b58011a8951"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-076/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-076/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
