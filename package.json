@@ -1,0 +1,14 @@
+{
+  "name": "htmlex",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HTML 分词器：字符引用、RAWTEXT、注释与错误恢复",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/token.test.js test/edge.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
