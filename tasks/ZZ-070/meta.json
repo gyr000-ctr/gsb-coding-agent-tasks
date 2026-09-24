@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-070",
+  "title": "htmlex HTML 分词器：RAWTEXT/RCDATA 状态机、字符引用与错误收集（从 0 实现）",
+  "created_at": "2026-09-24T15:31:16",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-070/base",
+    "sha": "1028aaeade723664425d7af20d7b15418072fefd",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/1028aaeade723664425d7af20d7b15418072fefd"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-070/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-070/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
