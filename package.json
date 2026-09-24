@@ -1,0 +1,14 @@
+{
+  "name": "regexpx",
+  "version": "0.1.0",
+  "private": true,
+  "description": "回溯正则引擎：字符类、量词、分组、反向引用与步数预算",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/engine.test.js test/edge.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
