@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-067",
+  "title": "tplate 模板引擎：不转义插值、片段与空白处理（v1 到 v2 迭代）",
+  "created_at": "2026-09-24T13:30:50",
+  "task_type": "Feature 迭代",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-067/base",
+    "sha": "95a8858b0b69fcb8cc76581bfc5fd1c289ddd02b",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/95a8858b0b69fcb8cc76581bfc5fd1c289ddd02b"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-067/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-067/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
