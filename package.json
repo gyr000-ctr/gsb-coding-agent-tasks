@@ -1,0 +1,14 @@
+{
+  "name": "binpack",
+  "version": "0.1.0",
+  "private": true,
+  "description": "确定性装箱：first-fit / best-fit / worst-fit / best-fit-decreasing",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/pack.test.js test/edge.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
