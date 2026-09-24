@@ -48,7 +48,7 @@
     "B": {
       "session_id": "01a0d286-4375-7983-bbf8-c3de6b08c4f8",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-072\\trajectories\\B-01a0d286-4375-7983-bbf8-c3de6b08c4f8.jsonl",
-      "trajectory_url": "",
+      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/d09dde72da94d915b792da75a9c1d4b710790e57/tasks/ZZ-072/trajectories/B-01a0d286-4375-7983-bbf8-c3de6b08c4f8.jsonl",
       "branch": "zz-072/b",
       "product_snapshot_sha": "5392e87e6eb44364d66a8488c0bafaa33c82d276",
       "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/5392e87e6eb44364d66a8488c0bafaa33c82d276",
