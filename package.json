@@ -1,0 +1,14 @@
+{
+  "name": "listdiff",
+  "version": "0.1.0",
+  "private": true,
+  "description": "键控列表 diff：最小移动、操作流与回放",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/diff.test.js test/apply.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
