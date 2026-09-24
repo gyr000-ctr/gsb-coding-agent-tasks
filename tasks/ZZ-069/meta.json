@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-069",
+  "title": "gridfit 表格公式引擎：字面量定型、依赖图重算与错误值传播（从 0 实现）",
+  "created_at": "2026-09-24T15:31:14",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-069/base",
+    "sha": "fa441167ff7700c62369531cd2388540cd26c79c",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/fa441167ff7700c62369531cd2388540cd26c79c"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-069/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-069/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
