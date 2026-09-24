@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-055",
+  "title": "raftlog Raft 日志复制：冲突截断、提交规则与快照成员变更（从 0 实现）",
+  "created_at": "2026-09-24T11:16:30",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js, node:test（无第三方依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.155.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-055/base",
+    "sha": "c34a127f2ae0625aad42f279b148dce06e5efb9c",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/c34a127f2ae0625aad42f279b148dce06e5efb9c"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-055/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-055/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
