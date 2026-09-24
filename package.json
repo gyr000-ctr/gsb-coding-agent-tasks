@@ -1,0 +1,14 @@
+{
+  "name": "hllset",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HyperLogLog 基数估计：稀疏/稠密两种表示与合并",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/basic.test.js test/merge.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
