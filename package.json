@@ -1,0 +1,14 @@
+{
+  "name": "timewheel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "分层时间轮：格子、层级选择、级联与虚拟时钟",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/wheel.test.js test/oracle.test.js",
+    "demo": "node scripts/demo.mjs"
+  }
+}
