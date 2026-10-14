@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>值班排班工具</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">📅</span>
+          <div>
+            <h1>值班排班工具</h1>
+            <p>面向小团队负责人的桌面排班方案</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span id="saveStatus" class="save-status">已自动保存</span>
+          <button id="saveNowButton" class="button button-secondary" type="button">立即保存</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <button class="nav-item active" type="button" data-page="employees">👥 员工管理</button>
+          <button class="nav-item" type="button" data-page="shifts">🕒 班次配置</button>
+          <button class="nav-item" type="button" data-page="schedule">📋 排班表</button>
+          <button class="nav-item" type="button" data-page="employeeView">👤 员工视图</button>
+        </aside>
+        <main id="main" class="content"></main>
+      </div>
+    </div>
+
+    <div id="modalRoot"></div>
+    <div id="toastRoot" class="toast-root"></div>
+
+    <script src="../scheduler.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

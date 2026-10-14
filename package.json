@@ -1,0 +1,20 @@
+{
+  "name": "shift-scheduler-desktop",
+  "version": "1.0.0",
+  "description": "面向小团队负责人的桌面端值班排班工具",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test"
+  },
+  "keywords": [
+    "shift",
+    "scheduler",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}
