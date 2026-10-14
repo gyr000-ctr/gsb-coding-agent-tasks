@@ -1,0 +1,37 @@
+{
+  "task_id": "ZZ-080",
+  "title": "值班排班工具：自动排班、规则校验与 CSV 导出（从 0 实现）",
+  "created_at": "2026-10-14T16:29:02",
+  "task_type": "0-1 代码生成",
+  "difficulty": "困难",
+  "language_framework": "JavaScript, Node.js（桌面端，无外部依赖）",
+  "harness": "Codex CLI",
+  "harness_version": "0.156.1",
+  "os": "Windows",
+  "env_level": "无外部依赖",
+  "prompt_file": "prompt.md",
+  "initial_snapshot": {
+    "branch": "zz-080/base",
+    "sha": "61c866aef3643afdcb07d576d87dfaa21ef82a03",
+    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/61c866aef3643afdcb07d576d87dfaa21ef82a03"
+  },
+  "runs": {
+    "A": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-080/a",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    },
+    "B": {
+      "session_id": "",
+      "trajectory_local": "",
+      "trajectory_url": "",
+      "branch": "zz-080/b",
+      "product_snapshot_sha": "",
+      "product_snapshot_permalink": ""
+    }
+  },
+  "notes": ""
+}
