@@ -17,12 +17,33 @@
   },
   "runs": {
     "A": {
-      "session_id": "",
-      "trajectory_local": "",
+      "session_id": "01a139a5-c97a-7a02-9522-c1c6baf43539",
+      "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-080\\trajectories\\A-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
       "trajectory_url": "",
       "branch": "zz-080/a",
-      "product_snapshot_sha": "",
-      "product_snapshot_permalink": ""
+      "product_snapshot_sha": "98b02543daf18689dff4598bdb4e12a62f563a65",
+      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/98b02543daf18689dff4598bdb4e12a62f563a65",
+      "trajectory_source": "C:\\Users\\Administrator\\.coding-agent-tasks\\homes\\ZZ-080-A\\.codex\\sessions\\2026\\10\\14\\rollout-2026-10-14T17-02-08-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
+      "evidence": {
+        "session_id": "01a139a5-c97a-7a02-9522-c1c6baf43539",
+        "cwd": "C:\\Users\\Administrator\\Downloads\\gsb-question-authoring\\go_test\\gsb-auto\\workspaces\\ZZ-080\\A",
+        "current_date": "2026-10-14",
+        "timezone": "Asia/Shanghai",
+        "model": "deepseek-v4-pro",
+        "model_provider": "deepseek",
+        "cli_version": "0.156.1",
+        "originator": "codex-tui",
+        "model_context_window": 62259,
+        "approval_policy": "never",
+        "sandbox_mode": "danger-full-access",
+        "raw_lines": 780,
+        "raw_bytes": 2704725,
+        "raw_sha256": "c9e8d37d2ef53738b67b186fda08d8c075fca225af333f764a5699e02808b80a",
+        "harness_chars": 0,
+        "harness_parts": {},
+        "prompt_sha256": "4f5cd50467d1a6128de92c09ce6db115770e47563b76d717a14d2945045d0694",
+        "prompt_chars": 477
+      }
     },
     "B": {
       "session_id": "",
