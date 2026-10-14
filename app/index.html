@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>值班排班工具</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <h1>值班排班工具</h1>
+      <span class="subtitle">小团队排班 · 自动生成 · 规则校验</span>
+    </div>
+    <nav class="main-nav" aria-label="主导航">
+      <button type="button" class="nav-btn active" data-action="nav" data-view="schedule">排班表</button>
+      <button type="button" class="nav-btn" data-action="nav" data-view="employees">员工管理</button>
+      <button type="button" class="nav-btn" data-action="nav" data-view="shifts">班次配置</button>
+    </nav>
+    <div class="header-actions">
+      <span id="saveStatus" class="save-status">未保存</span>
+      <button type="button" class="btn btn-secondary" data-action="export-csv">导出 CSV</button>
+      <button type="button" class="btn btn-secondary" id="employeeViewBtn" data-action="toggle-employee-view">员工视图</button>
+    </div>
+  </header>
+
+  <main id="app" class="app-main"></main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
