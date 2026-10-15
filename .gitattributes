@@ -1,0 +1,3 @@
+# 轨迹文件（codex CLI 写的 rollout jsonl）必须逐字节原样上交，禁止 git 做行尾转换。
+# 本机 core.autocrlf=true，不加这条的话 checkout 会把 LF 改写成 CRLF。
+*.jsonl -text
