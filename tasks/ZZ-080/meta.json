@@ -13,16 +13,16 @@
   "initial_snapshot": {
     "branch": "zz-080/base",
     "sha": "61c866aef3643afdcb07d576d87dfaa21ef82a03",
-    "permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/61c866aef3643afdcb07d576d87dfaa21ef82a03"
+    "permalink": "https://github.com/gyr000-ctr/gsb-coding-agent-tasks/commit/61c866aef3643afdcb07d576d87dfaa21ef82a03"
   },
   "runs": {
     "A": {
       "session_id": "01a139a5-c97a-7a02-9522-c1c6baf43539",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-080\\trajectories\\A-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/a9fbbbddd1f2b35cb9a266dcbd9cfdaac5bee94b/tasks/ZZ-080/trajectories/A-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/gyr000-ctr/gsb-coding-agent-tasks/d69334cf6c6f395217fcf9bc7d1fed2ac79a9afa/tasks/ZZ-080/trajectories/A-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
       "branch": "zz-080/a",
       "product_snapshot_sha": "98b02543daf18689dff4598bdb4e12a62f563a65",
-      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/98b02543daf18689dff4598bdb4e12a62f563a65",
+      "product_snapshot_permalink": "https://github.com/gyr000-ctr/gsb-coding-agent-tasks/commit/98b02543daf18689dff4598bdb4e12a62f563a65",
       "trajectory_source": "C:\\Users\\Administrator\\.coding-agent-tasks\\homes\\ZZ-080-A\\.codex\\sessions\\2026\\10\\14\\rollout-2026-10-14T17-02-08-01a139a5-c97a-7a02-9522-c1c6baf43539.jsonl",
       "evidence": {
         "session_id": "01a139a5-c97a-7a02-9522-c1c6baf43539",
@@ -48,10 +48,10 @@
     "B": {
       "session_id": "01a139c9-9411-7552-a6ae-20402d4469e3",
       "trajectory_local": "C:\\Users\\Administrator\\Documents\\coding-agent-tasks\\tasks\\ZZ-080\\trajectories\\B-01a139c9-9411-7552-a6ae-20402d4469e3.jsonl",
-      "trajectory_url": "https://raw.githubusercontent.com/liiing123/gsb-coding-agent-tasks/071d81939e73b0c0c6a5aaef7f0c96ef87c2a260/tasks/ZZ-080/trajectories/B-01a139c9-9411-7552-a6ae-20402d4469e3.jsonl",
+      "trajectory_url": "https://raw.githubusercontent.com/gyr000-ctr/gsb-coding-agent-tasks/d69334cf6c6f395217fcf9bc7d1fed2ac79a9afa/tasks/ZZ-080/trajectories/B-01a139c9-9411-7552-a6ae-20402d4469e3.jsonl",
       "branch": "zz-080/b",
       "product_snapshot_sha": "0dc822701c9e92300a6443300de9a082073cd71d",
-      "product_snapshot_permalink": "https://github.com/liiing123/gsb-coding-agent-tasks/commit/0dc822701c9e92300a6443300de9a082073cd71d",
+      "product_snapshot_permalink": "https://github.com/gyr000-ctr/gsb-coding-agent-tasks/commit/0dc822701c9e92300a6443300de9a082073cd71d",
       "trajectory_source": "C:\\Users\\Administrator\\.coding-agent-tasks\\homes\\ZZ-080-B\\.codex\\sessions\\2026\\10\\14\\rollout-2026-10-14T17-41-14-01a139c9-9411-7552-a6ae-20402d4469e3.jsonl",
       "evidence": {
         "session_id": "01a139c9-9411-7552-a6ae-20402d4469e3",
